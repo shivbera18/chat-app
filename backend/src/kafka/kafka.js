@@ -76,6 +76,7 @@ const startKafka = async (io) => {
                   sentAt: savedMessage.createdAt,
                   chatId: savedMessage.chatId,
                   clientTempId,
+                  status: savedMessage.status || "SENT",
                 });
               }
 

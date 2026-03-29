@@ -98,22 +98,28 @@ function SingleChat({ chat, friend, onUpdateChat }) {
       });
 
       if (message.senderId === currentUserId) {
-        setOwnMessageStatus((prev) => ({ ...prev, [message.id]: "delivered" }));
+        setOwnMessageStatus((prev) => ({ ...prev, [message.id]: "DELIVERED" }));
+      } else {
+        // Automatically mark as delivered since it arrived in our client
+        socket.emit("markDelivered", { 
+          chatId: chat.id, 
+          messageId: message.id, 
+          userId: currentUserId 
+        });
       }
     };
 
-    const seenHandler = ({ chatId, messageId, userId }) => {
+    const statusHandler = ({ chatId, messageId, status }) => {
       if (chatId !== chat.id) return;
-      if (userId === currentUserId) return;
-
-      setOwnMessageStatus((prev) => ({ ...prev, [messageId]: "seen" }));
+      // status can be "DELIVERED" or "READ"
+      setOwnMessageStatus((prev) => ({ ...prev, [messageId]: status }));
     };
 
     socket.on("receiveMessage", messageHandler);
-    socket.on("messageSeenUpdate", seenHandler);
+    socket.on("messageStatusUpdate", statusHandler);
     return () => {
       socket.off("receiveMessage", messageHandler);
-      socket.off("messageSeenUpdate", seenHandler);
+      socket.off("messageStatusUpdate", statusHandler);
     };
   }, [chat.id]);
 
@@ -311,7 +317,7 @@ function SingleChat({ chat, friend, onUpdateChat }) {
       {/* Messages container */}
       <div
         ref={containerRef}
-        className="flex-grow overflow-y-auto pl-4 pr-4 pt-5 pb-3 bg-[var(--ui-bg)] dark:bg-[#09090b] space-y-2 pb-24"
+        className="flex-1 overflow-y-auto pl-4 pr-4 pt-5 pb-3 bg-[var(--ui-bg)] dark:bg-[#09090b] space-y-2 pb-24"
       >
         {loadingMessages ? (
           <div className="space-y-4">
@@ -405,7 +411,7 @@ function SingleChat({ chat, friend, onUpdateChat }) {
             value={input}
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
-            className="flex-grow p-3 bg-slate-50 dark:bg-[#18181b] dark:text-white rounded-2xl text-sm border-[3px] border-black resize-none max-h-36"
+            className="flex-1 p-3 bg-slate-50 dark:bg-[#18181b] dark:text-white rounded-2xl text-sm border-[3px] border-black resize-none max-h-36"
           />
           <Button
             onClick={sendMessage}

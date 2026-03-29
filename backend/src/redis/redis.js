@@ -24,10 +24,15 @@ const fallbackClient = {
   set: async () => null,
   del: async () => 0,
   zAdd: async () => 0,
+  zScore: async () => null,
   zRangeByScore: async () => [],
   zRemRangeByScore: async () => 0,
+  zRem: async () => 0,
   zCard: async () => 0,
   expire: async () => 0,
+  lPush: async () => 0,
+  rPop: async () => null,
+  rPopCount: async () => [],
 };
 
 let client = realClient;

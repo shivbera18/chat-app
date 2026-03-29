@@ -8,6 +8,7 @@ import { client } from "../redis/redis.js";
 import { generateAccessAndRefreshToken } from "../utils/tokenGenerators.js";
 import { deleteCloudinary, uploadCloudinary } from "../utils/cloudinary.js";
 import { prisma } from "../db/prisma.js";
+import { getOnlineUsers } from "../redis/presence.js";
 
 // Register Route
 const registerUser = asyncHandler(async (req, res) => {
@@ -288,8 +289,8 @@ const getAllChats = asyncHandler(async (req, res) => {
 
 const isOnline = asyncHandler(async (req, res) => {
   const { userId } = req.params;
-  const onlineStatus = await client.get(`online:${userId}`);
-  const isOnline = onlineStatus === "true";
+  const statuses = await getOnlineUsers([userId]);
+  const isOnline = !!statuses[userId];
 
   //returns true/false
   return res.status(200).json(isOnline);

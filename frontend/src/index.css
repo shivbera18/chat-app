@@ -147,3 +147,22 @@ button:active {
     box-shadow: var(--ui-shadow-sm) !important;
   }
 }
+
+/* Neobrutalist Toast Styles */
+.Toastify__toast.neo-toast {
+  border: 3px solid var(--ui-line) !important;
+  border-radius: var(--ui-radius) !important;
+  box-shadow: var(--ui-shadow) !important;
+  font-family: 'Space Grotesk', inherit !important;
+  font-weight: 700;
+  color: var(--ui-ink) !important;
+}
+
+.Toastify__toast-theme--light.neo-toast {
+  background: var(--ui-surface) !important;
+}
+
+.Toastify__toast-theme--dark.neo-toast {
+  background: var(--ui-panel) !important;
+  color: #fff !important;
+}

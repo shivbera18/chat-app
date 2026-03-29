@@ -3,6 +3,7 @@ import app from "./app.js";
 import dotenv from "dotenv";
 import { setupSocket } from "./webSockets/socket.js";
 import { startKafka } from "./kafka/kafka.js";
+import { startReceiptWorker } from "./workers/receiptWorker.js";
 
 dotenv.config({ path: "./.env" });
 
@@ -17,6 +18,7 @@ server.listen(PORT, () => {
 });
 
 startKafka(io);
+startReceiptWorker();
 
 // Global error handlers to prevent crashes
 process.on('uncaughtException', (error) => {

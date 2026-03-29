@@ -4,6 +4,8 @@ import { client } from "../redis/redis.js";
 import { prisma } from "../db/prisma.js";
 import { publishChatEvent, kafkaEnabled } from "../kafka/kafka.js";
 import { createMessage } from "../controllers/message.controller.js";
+import { markUserOnline, markUserOffline, getOnlineUsers } from "../redis/presence.js";
+import { bufferReceipt } from "../redis/receiptsBuffer.js";
 import { createAdapter } from "@socket.io/redis-adapter";
 import { createClient } from "redis";
 import { redisUrl, isOptional } from "../redis/redis.js";
@@ -95,6 +97,7 @@ export const setupSocket = (server) => {
               sentAt: savedMessage.createdAt,
               chatId: savedMessage.chatId,
               clientTempId,
+              status: savedMessage.status || "SENT",
             });
           }
         } catch (error) {
@@ -113,61 +116,64 @@ export const setupSocket = (server) => {
 
     socket.on("userOnline", async (data) => {
       const { userId } = data;
-      try {
-        await client.set(`online:${userId}`, "true", { EX: 60 });
-      } catch (error) {
-        console.error(
-          "Error while setting online status of user :",
-          error.message,
-        );
+      socket.data.userId = userId; // Store for disconnect
+      await markUserOnline(userId);
+      // Optional: Broadcast globally that user is online
+      io.emit("statusUpdate", { userId, status: "online" });
+    });
+
+    socket.on("checkOnlineUsers", async ({ userIds }, callback) => {
+      if (userIds && userIds.length > 0) {
+        const statuses = await getOnlineUsers(userIds);
+        if (callback) callback(statuses);
       }
     });
 
     socket.on("typing", async (data) => {
       const { chatId, userId } = data;
       socket.to(chatId).emit("userTyping", { chatId, userId });
-      await publishChatEvent("chat.typing.started", { chatId, userId });
+      if (kafkaEnabled) await publishChatEvent("chat.typing.started", { chatId, userId });
     });
 
     socket.on("stopTyping", ({ chatId, userId }) => {
       socket.to(chatId).emit("userStopTyping", { userId });
-      publishChatEvent("chat.typing.stopped", { chatId, userId });
+      if (kafkaEnabled) publishChatEvent("chat.typing.stopped", { chatId, userId });
+    });
+
+    socket.on("markDelivered", async ({ chatId, messageId, userId }) => {
+      if (!chatId || !messageId) return;
+      io.to(chatId).emit("messageStatusUpdate", { chatId, messageId, status: "DELIVERED" });
+      await bufferReceipt(messageId, "DELIVERED", userId, chatId);
     });
 
     socket.on("markSeen", async ({ chatId, messageId, userId }) => {
-      if (!chatId || !messageId || !userId) {
-        return;
-      }
-
+      if (!chatId || !messageId) return;
       const seenAt = new Date().toISOString();
-      io.to(chatId).emit("messageSeenUpdate", { chatId, messageId, userId, seenAt });
-
-      await publishChatEvent("chat.message.seen", {
-        chatId,
-        messageId,
-        userId,
-        seenAt,
-      });
+      io.to(chatId).emit("messageStatusUpdate", { chatId, messageId, status: "READ", seenAt });
+      await bufferReceipt(messageId, "READ", userId, chatId);
+      
+      if (kafkaEnabled) {
+        await publishChatEvent("chat.message.seen", { chatId, messageId, userId, seenAt });
+      }
     });
 
     socket.on("sendSecretMessage", async (data) => {
       const { chatId, userId, msg } = data;
       try {
         await prisma.message.create({ userId, chatId, msg });
-        io.to(chatId).emit("receiveSecretMessage", {
-          userId,
-          msg,
-          timestamp: Date.now(),
-        });
-        console.log("Secret message sent to room:", chatId);
+        io.to(chatId).emit("receiveSecretMessage", { userId, msg, timestamp: Date.now() });
       } catch (error) {
         console.error("Error handling sendSecretMessage:", error);
         socket.emit("errorSecretMessage", { error: error.message });
       }
     });
 
-    socket.on("disconnect", () => {
+    socket.on("disconnect", async () => {
       console.log(`User disconnected: ${socket.id}`);
+      if (socket.data.userId) {
+        await markUserOffline(socket.data.userId);
+        io.emit("statusUpdate", { userId: socket.data.userId, status: "offline" });
+      }
     });
   });
   return io;

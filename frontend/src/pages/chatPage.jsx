@@ -49,10 +49,10 @@ function ChatPage() {
   }, [location.state?.chat]);
 
   return (
-    <div className="h-screen flex flex-col bg-[var(--ui-bg)] text-[var(--ui-ink)]">
+    <div className="h-[100dvh] flex flex-col bg-[var(--ui-bg)] text-[var(--ui-ink)]">
       <Header onMenuClick={() => setShowSidebar((v) => !v)} />
       {/* Main content area */}
-      <div className="flex flex-col flex-grow min-h-0 overflow-hidden relative p-2 md:p-4">
+      <div className="flex flex-col flex-1 min-h-0 overflow-hidden relative p-2 md:p-4">
         <div className="surface-panel w-full h-full min-h-0 flex overflow-hidden">
         {/* Sidebar for AllChats */}
         <aside
@@ -71,7 +71,7 @@ function ChatPage() {
 
         {/* Chat area */}
         {!showSidebar && (
-          <main className="flex flex-col flex-grow min-h-0 overflow-hidden">
+          <main className="flex flex-col flex-1 min-h-0 overflow-hidden">
             {activeChat ? (
               <>
                 {/* Chat Navbar Container */}
@@ -83,7 +83,7 @@ function ChatPage() {
                   />
                 </div>
                 {/* Single Chat Container - scrolling handled inside SingleChat */}
-                <div className="flex-grow min-h-0 flex flex-col relative overflow-hidden">
+                <div className="flex-1 min-h-0 flex flex-col relative overflow-hidden">
                   <SingleChat
                     chat={activeChat}
                     friend={friend}
@@ -96,7 +96,7 @@ function ChatPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.35 }}
-                className="flex flex-grow items-center justify-center flex-col space-y-4 dark:text-primary bg-white dark:bg-[#09090b]"
+                className="flex flex-1 items-center justify-center flex-col space-y-4 dark:text-primary bg-white dark:bg-[#09090b]"
               >
                 <p className="text-slate-500 font-medium text-center px-4">
                   Select or create a chat to view messages.

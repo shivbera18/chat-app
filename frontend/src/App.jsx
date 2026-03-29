@@ -1,3 +1,5 @@
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/loginPage.jsx";
 import RegisterPage from "./pages/registerPage.jsx";
@@ -12,6 +14,7 @@ function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
+        <ToastContainer position="top-center" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover toastClassName="neo-toast" />
         <Heartbeat />
         <Routes>
           <Route path="/" element={<LoginPage />} />

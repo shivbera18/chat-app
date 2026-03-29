@@ -72,11 +72,11 @@ export default function Message({
   };
 
   const statusLabel =
-    status === "seen" ? "✓✓" : status === "delivered" ? "✓✓" : "✓";
+    status === "READ" || status === "seen" ? "✓✓" : status === "DELIVERED" || status === "delivered" ? "✓✓" : "✓";
   const statusColor =
-    status === "seen"
-      ? "text-cyan-200"
-      : status === "delivered"
+    status === "READ" || status === "seen"
+      ? "text-cyan-400"
+      : status === "DELIVERED" || status === "delivered"
         ? "text-slate-200"
         : "text-slate-300";
 
@@ -84,7 +84,7 @@ export default function Message({
     <motion.div
       initial={{ opacity: 0, y: 8, scale: 0.98 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 0.18 }}
+      transition={{ type: "spring", stiffness: 300, damping: 20 }}
       className={`flex items-end gap-2 mb-1 px-2 ${
         isOwnMessage ? "justify-end" : "justify-start"
       }`}
