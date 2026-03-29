@@ -69,7 +69,7 @@ export const LockChatModal = ({ isOpen, onClose, chat, onUpdate }) => {
       onClick={handleClose}
     >
       <div
-        className={`bg-white dark:bg-[rgb(0,7,28)] w-full max-w-sm rounded-[2rem] shadow-2xl overflow-hidden transition-all duration-300 transform border border-gray-100 dark:border-gray-800 ${
+        className={`bg-white dark:bg-slate-900 w-full max-w-sm rounded-[2rem] shadow-2xl overflow-hidden transition-all duration-300 transform border border-gray-100 dark:border-slate-700 ${
           isVisible ? "scale-100 translate-y-0" : "scale-95 translate-y-4"
         }`}
         onClick={(e) => e.stopPropagation()}
@@ -81,7 +81,7 @@ export const LockChatModal = ({ isOpen, onClose, chat, onUpdate }) => {
           </h2>
           <button
             onClick={handleClose}
-            className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-500 transition-all duration-200"
+            className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-slate-800 text-gray-500 transition-all duration-200"
           >
             <FiX size={20} />
           </button>

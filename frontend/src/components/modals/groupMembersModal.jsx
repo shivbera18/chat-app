@@ -33,20 +33,20 @@ const GroupMembersModal = ({ members, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pt-20 bg-black bg-opacity-50 backdrop-blur-sm">
-      <div className="relative bg-white dark:bg-gray-800 p-6 rounded-[2rem] shadow-lg w-full max-w-sm max-h-[80vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pt-20 bg-black/45 backdrop-blur-sm">
+      <div className="relative bg-white dark:bg-slate-900 p-6 rounded-[2rem] shadow-lg w-full max-w-sm max-h-[80vh] overflow-y-auto border border-slate-200 dark:border-slate-700">
         {/* Close Button */}
         <button
           onClick={() => {
             onClose();
             triggerClick();
           }}
-          className="absolute top-4 right-4 p-2 text-gray-600 dark:text-gray-300 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600"
+          className="absolute top-4 right-4 p-2 text-gray-600 dark:text-gray-300 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700"
           title="Close"
         >
           <FiX size={20} />
         </button>
-        <h2 className="text-xl font-bold mb-4 dark:text-secondary">
+        <h2 className="text-xl font-bold mb-4 text-slate-900 dark:text-slate-100">
           Group Members
         </h2>
         <div className="space-y-3">
