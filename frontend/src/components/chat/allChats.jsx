@@ -59,7 +59,7 @@ function AllChats() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search chats"
-          className="mt-3 w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500/30"
+          className="mt-3 w-full rounded-xl border-[3px] border-black dark:border-white shadow-[2px_2px_0_0_#000] dark:shadow-[2px_2px_0_0_#fff] bg-white dark:bg-slate-800 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500/30"
         />
         <p className="text-xs text-slate-500 mt-2">
           Direct Messages
@@ -111,8 +111,8 @@ function AllChats() {
                   className={`group flex items-center p-3 rounded-2xl transition-all duration-200 relative border
                 ${
                   location.state?.chat?.id === object.chat.id
-                    ? "bg-blue-50 border-blue-200 dark:bg-blue-900/20 dark:border-blue-700"
-                    : "bg-white border-slate-200 hover:bg-slate-50 dark:bg-[#09090b] dark:border-slate-800 dark:hover:bg-slate-800"
+                    ? "bg-blue-50 border-[3px] border-black dark:border-white"
+                    : "bg-white border-[3px] border-black hover:-translate-y-1 shadow-[2px_2px_0px_#000] dark:border-white dark:-shadow-[2px_2px_0px_#fff] dark:hover:bg-slate-800"
                 }
               `}
                 >

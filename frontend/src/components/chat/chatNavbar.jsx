@@ -132,7 +132,7 @@ function ChatNavbar({ chat, friend, onUpdateChat }) {
             <FiMoreVertical size={24} />
           </button>
           {dropdownOpen && (
-            <div className="absolute right-0 mt-2 w-52 bg-white dark:bg-[#09090b] border border-slate-200 dark:border-slate-700 rounded-xl shadow-xl z-20 p-1">
+            <div className="absolute right-0 mt-2 w-52 bg-white dark:bg-[#09090b] border-[3px] border-black dark:border-white shadow-[4px_4px_0_0_#000] rounded-xl shadow-xl z-20 p-1">
               <button
                 onClick={() => {
                   setShowViewAvatarModal(true);

@@ -307,7 +307,7 @@ function SingleChat({ chat, friend, onUpdateChat }) {
   }
 
   return (
-    <div className="flex flex-col h-full min-h-0 bg-white dark:bg-[#09090b]">
+    <div className="flex flex-col h-full min-h-0 bg-[var(--ui-bg)]">
       {/* Messages container */}
       <div
         ref={containerRef}
@@ -352,7 +352,7 @@ function SingleChat({ chat, friend, onUpdateChat }) {
         <div ref={messagesEndRef} />
         {reactionsPopup && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white dark:bg-slate-900 dark:text-white p-6 max-w-sm w-full rounded-2xl border border-slate-200 dark:border-slate-700 shadow-xl">
+            <div className="bg-white dark:bg-[#18181b] dark:text-white p-6 max-w-sm w-full rounded-2xl border-[3px] border-black shadow-xl">
               <h3 className="text-lg font-semibold mb-4">Reactions</h3>
               <div className="space-y-2 max-h-60 overflow-y-auto">
                 {/*  msg.reactions look like {emoji,user} */}
@@ -361,7 +361,7 @@ function SingleChat({ chat, friend, onUpdateChat }) {
                   ?.reactions.map((r, i) => (
                     <div
                       key={i}
-                      className="flex items-center gap-3 p-2 bg-slate-50 dark:bg-slate-800 rounded-md border border-slate-200 dark:border-slate-700"
+                      className="flex items-center gap-3 p-2 bg-slate-50 dark:bg-slate-800 rounded-md border-[3px] border-black"
                     >
                       <AvatarComponent
                         profilePicture={r.user.avatar}
@@ -389,7 +389,7 @@ function SingleChat({ chat, friend, onUpdateChat }) {
       </div>
 
       {/* Input Box fixed at bottom */}
-      <div className="flex-shrink-0 p-3 bg-white/95 dark:bg-[#0f172a] border-t border-slate-200 dark:border-slate-700">
+      <div className="flex-shrink-0 p-3 bg-[var(--ui-panel)] border-t-[3px] border-black">
         {isFriendTyping && (
           <div className="mx-4 mb-1 text-sm italic text-gray-600 dark:text-green-500 ">
             {chat.isGroup
@@ -405,7 +405,7 @@ function SingleChat({ chat, friend, onUpdateChat }) {
             value={input}
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
-            className="flex-grow p-3 bg-slate-50 dark:bg-slate-900 dark:text-white rounded-2xl text-sm border border-slate-200 dark:border-slate-600 resize-none max-h-36"
+            className="flex-grow p-3 bg-slate-50 dark:bg-[#18181b] dark:text-white rounded-2xl text-sm border-[3px] border-black resize-none max-h-36"
           />
           <Button
             onClick={sendMessage}

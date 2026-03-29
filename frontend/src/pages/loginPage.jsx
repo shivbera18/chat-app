@@ -74,10 +74,10 @@ export default function LoginPage() {
       className="min-h-screen flex items-center justify-center bg-center bg-cover relative px-4 py-8"
       style={{ backgroundImage: `url(${bg})` }}
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-gray-50/80 via-white/80 to-gray-100/80 dark:from-[#09090b]/80 dark:via-[#18181b]/80 dark:to-[#09090b]/80" />
+      <div className="absolute inset-0 bg-[var(--ui-bg)]" />
 
       <div className="relative z-10 w-full max-w-md mx-4">
-        <div className="surface-panel rounded-[22px] p-8 backdrop-blur-xl bg-white/95 dark:bg-slate-900/95">
+        <div className="surface-panel rounded-[22px] p-8 backdrop-blur-xl bg-white dark:bg-[#202020]">
           <h1 className="text-3xl mb-2 text-slate-900 dark:text-white font-extrabold text-center tracking-tight">
             Welcome Back
           </h1>
@@ -86,13 +86,13 @@ export default function LoginPage() {
           </p>
 
           {successMessage && (
-            <div className="mb-4 p-3 bg-emerald-100 border border-emerald-300 text-emerald-800 rounded-xl font-semibold">
+            <div className="mb-4 p-3 bg-emerald-100 border-[3px] border-black text-emerald-800 rounded-xl font-semibold">
               {successMessage}
             </div>
           )}
 
           {error && (
-            <div className="mb-4 p-3 bg-rose-100 border border-rose-300 text-rose-800 rounded-xl font-semibold">
+            <div className="mb-4 p-3 bg-rose-100 border-[3px] border-black text-rose-800 rounded-xl font-semibold">
               {error}
             </div>
           )}

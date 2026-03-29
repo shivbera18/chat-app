@@ -101,11 +101,11 @@ export default function Message({
       )}
 
       <div
-        className={`relative px-3 py-2 rounded-2xl max-w-[80%] w-fit border shadow-sm
+        className={`relative px-3 py-2 rounded-2xl max-w-[80%] w-fit border-[3px] border-black shadow-[4px_4px_0_0_#000]
           ${
             isOwnMessage
-              ? "bg-blue-600 text-white rounded-br-md border-blue-500"
-              : "bg-white text-slate-800 rounded-bl-md border-slate-200 dark:bg-slate-900 dark:text-slate-100 dark:border-slate-600"
+              ? "bg-blue-600 text-white rounded-br-md border-black dark:border-white"
+              : "bg-white text-slate-800 rounded-bl-md dark:bg-[#18181b] dark:text-white dark:border-white"
           }
         `}
         onContextMenu={handleContextMenu}
@@ -143,7 +143,7 @@ export default function Message({
             {Object.entries(counts).map(([emoji, cnt]) => (
               <span
                 key={emoji}
-                className="flex items-center px-2 py-0.5 bg-slate-100 dark:bg-slate-700 rounded-full text-xs text-slate-700 dark:text-white border border-slate-200 dark:border-slate-600"
+                className="flex items-center px-2 py-0.5 bg-slate-100 dark:bg-slate-700 rounded-full text-xs text-slate-700 dark:text-white border-[2px] border-black"
               >
                 <span className="mr-1">{emoji}</span>
                 <span>{cnt}</span>

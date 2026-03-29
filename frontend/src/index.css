@@ -1,27 +1,30 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --ui-bg: #fafafa;
-  --ui-surface: #ffffff;
-  --ui-panel: #f4f4f5;
-  --ui-ink: #09090b;
-  --ui-muted: #71717a;
-  --ui-line: #e4e4e7;
-  --ui-accent: #18181b;
-  --ui-accent-2: #2563eb;
-  --ui-warm: #f59e0b;
-  --ui-danger: #ef4444;
-  --ui-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
-  --ui-shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.05), 0 1px 2px -1px rgb(0 0 0 / 0.05);
-  --ui-radius: 12px;
+  --ui-bg: #FFE8A1;
+  --ui-surface: #FFFFFF;
+  --ui-panel: #FFFFFF;
+  --ui-ink: #000000;
+  --ui-muted: #52525B;
+  --ui-line: #000000;
+  --ui-accent: #FF90E8;
+  --ui-accent-2: #23A094;
+  --ui-warm: #FF4A4A;
+  --ui-danger: #FF4A4A;
+  
+  --ui-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 1);
+  --ui-shadow-sm: 2px 2px 0px 0px rgba(0, 0, 0, 1);
+  
+  --ui-radius: 8px;
 }
 
 body {
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
   color: var(--ui-ink);
   background: var(--ui-bg);
   min-height: 100vh;
@@ -30,95 +33,117 @@ body {
 }
 
 .p-skeleton {
-  @apply bg-slate-200 dark:bg-[#2e3a4a] !important;
-  opacity: 0.9;
+  @apply bg-slate-200;
+  border: 2px solid #000 !important;
+  box-shadow: 2px 2px 0px 0px #000 !important;
+  opacity: 1;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: inherit;
-  font-weight: 600;
-  letter-spacing: -0.01em;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 button, input, textarea, select {
-  box-shadow: none;
   font-family: inherit;
+  border: 3px solid var(--ui-line) !important;
+  color: var(--ui-ink);
 }
 
 button {
   transition: all 150ms ease;
-  font-weight: 500;
+  font-weight: 700;
+  box-shadow: var(--ui-shadow-sm) !important;
+}
+
+button:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: var(--ui-shadow) !important;
 }
 
 button:active {
-  transform: scale(0.98);
+  transform: translate(2px, 2px);
+  box-shadow: 0px 0px 0px 0px rgba(0,0,0,1) !important;
 }
 
 .neo-card {
-  border: 1px solid var(--ui-line);
+  border: 3px solid var(--ui-line) !important;
   border-radius: var(--ui-radius);
-  box-shadow: var(--ui-shadow-sm);
+  box-shadow: var(--ui-shadow) !important;
   background: var(--ui-surface);
 }
 
 .neo-chip {
-  border: 1px solid var(--ui-line);
+  border: 2px solid var(--ui-line) !important;
   border-radius: 999px;
   padding: 0.25rem 0.75rem;
   font-size: 0.875rem;
-  font-weight: 500;
-  background: var(--ui-panel);
+  font-weight: 700;
+  background: var(--ui-accent);
+  box-shadow: 2px 2px 0px 0px #000 !important;
 }
 
 .surface-panel {
   background: var(--ui-surface);
-  border: 1px solid var(--ui-line);
+  border: 3px solid var(--ui-line) !important;
   border-radius: var(--ui-radius);
-  box-shadow: var(--ui-shadow-sm);
+  box-shadow: var(--ui-shadow) !important;
 }
 
 .soft-input {
   background: var(--ui-panel);
-  border: 1px solid transparent;
-  border-radius: 10px;
-  transition: border-color 150ms ease;
+  border: 3px solid var(--ui-line) !important;
+  border-radius: 8px;
+  box-shadow: var(--ui-shadow-sm) !important;
+  transition: all 150ms ease;
 }
 
 .soft-input:focus {
-  border-color: var(--ui-accent-2);
   outline: none;
+  box-shadow: var(--ui-shadow) !important;
+  transform: translate(-1px, -1px);
 }
 
 .brand-gradient {
-  background: linear-gradient(135deg, #18181b, #27272a);
+  background: var(--ui-accent-2);
+  border: 3px solid #000 !important;
+  box-shadow: var(--ui-shadow) !important;
 }
 
 .dark body {
-  background: #09090b;
-  color: #fafafa;
+  background: #121212;
+  color: #E2E8F0;
+  --ui-line: #FFFFFF;
+  --ui-surface: #202020;
+  --ui-panel: #202020;
+  --ui-shadow: 4px 4px 0px 0px rgba(255, 255, 255, 1);
+  --ui-shadow-sm: 2px 2px 0px 0px rgba(255, 255, 255, 1);
 }
 
-.dark .neo-card {
-  background: #18181b;
-  border-color: #27272a;
+.dark .neo-card, .dark .surface-panel {
+  background: var(--ui-surface);
+  border-color: var(--ui-line) !important;
+  box-shadow: var(--ui-shadow) !important;
 }
 
-.dark button, .dark input, .dark textarea, .dark select {
-  border-color: #27272a;
+.dark button, .dark input, .dark textarea, .dark select, .dark .soft-input {
+  border-color: var(--ui-line) !important;
+  background: var(--ui-panel);
+  color: #fff;
 }
 
-.dark .surface-panel {
-  background: #18181b;
-  border-color: #27272a;
+.dark button {
+  background: var(--ui-surface);
 }
 
-.dark .soft-input {
-  background: #18181b;
-  border-color: #27272a;
+.dark .soft-input:focus {
+  box-shadow: var(--ui-shadow) !important;
 }
 
 @media (max-width: 640px) {
   button:hover {
     transform: none;
+    box-shadow: var(--ui-shadow-sm) !important;
   }
 }

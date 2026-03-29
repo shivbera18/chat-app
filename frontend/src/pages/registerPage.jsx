@@ -67,7 +67,7 @@ export default function RegisterPage() {
           <h1 className="text-3xl mb-4 text-slate-900 dark:text-white font-extrabold text-center tracking-tight">Create Account</h1>
 
           {error && (
-            <div className="mb-4 p-3 bg-red-50 text-red-600 border border-red-200 dark:bg-red-900/20 dark:border-red-800 rounded-xl font-semibold">
+            <div className="mb-4 p-3 bg-red-50 text-red-600 border-[3px] border-black rounded-xl font-semibold">
               {error}
             </div>
           )}

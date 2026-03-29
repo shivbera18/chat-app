@@ -49,7 +49,7 @@ function ChatPage() {
   }, [location.state?.chat]);
 
   return (
-    <div className="h-screen flex flex-col bg-gray-50 text-gray-900 dark:bg-[#09090b] dark:text-gray-100">
+    <div className="h-screen flex flex-col bg-[var(--ui-bg)] text-[var(--ui-ink)]">
       <Header onMenuClick={() => setShowSidebar((v) => !v)} />
       {/* Main content area */}
       <div className="flex flex-grow overflow-hidden relative p-2 md:p-4">
@@ -60,7 +60,7 @@ function ChatPage() {
             ${showSidebar ? "block" : "hidden"} 
             md:block
             w-full md:w-64 lg:w-80 h-full absolute md:relative z-20
-            bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800
+            bg-white dark:bg-[#09090b] border-r border-slate-200 dark:border-slate-800
           `}
           onClick={() => {
             setShowSidebar(false);
