@@ -45,7 +45,10 @@ export default function RegisterPage() {
         if (msg.includes("username")) setError("Username already exists. Please choose a different username.");
         else if (msg.includes("email")) setError("Email already exists. Please use a different email address.");
         else setError(err.response.data.message);
+      } else if (Array.isArray(err.response?.data?.errors) && err.response.data.errors.length > 0) {
+        setError(err.response.data.errors[0]);
       } else if (err.response?.status === 409) setError("Username or email already exists");
+      else if (err.code === "ERR_NETWORK") setError("Cannot reach backend server. Start backend and try again.");
       else setError("Registration failed. Please try again.");
     } finally {
       setLoading(false);
