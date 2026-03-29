@@ -14,6 +14,7 @@ function SecretChatMessages({ messages }) {
     <div
       ref={containerRef}
       className="flex-grow overflow-y-auto px-4 pt-4 bg-gray-100 dark:bg-gray-800 space-y-2 pb-24"
+      data-lenis-prevent="true"
     >
       {messages.map((msg, index) => (
         <Message key={index} message={msg} />

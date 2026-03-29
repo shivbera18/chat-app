@@ -34,7 +34,7 @@ const GroupMembersModal = ({ members, onClose }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pt-20 bg-black/45 backdrop-blur-sm">
-      <div className="relative bg-white dark:bg-slate-900 p-6 rounded-[2rem] shadow-lg w-full max-w-sm max-h-[80vh] overflow-y-auto border border-slate-200 dark:border-slate-700">
+      <div className="relative bg-white dark:bg-slate-900 p-6 rounded-[2rem] shadow-lg w-full max-w-sm max-h-[80vh] overflow-y-auto border border-slate-200 dark:border-slate-700" data-lenis-prevent="true">
         {/* Close Button */}
         <button
           onClick={() => {

@@ -12,7 +12,7 @@ import { Skeleton } from "primereact/skeleton";
 import { useAppHaptics } from "../../utils/useAppHaptics.js";
 import { Button } from "../ui/button.jsx";
 
-function SingleChat({ chat, friend, onUpdateChat }) {
+function SingleChat({ chat, friend, onUpdateChat, onShowMsgInfo }) {
   const { user } = useContext(AuthContext);
   const currentUserId = user?.id;
   const [messages, setMessages] = useState([]);
@@ -84,14 +84,17 @@ function SingleChat({ chat, friend, onUpdateChat }) {
 
       setMessages((prev) => {
         const hasAlready = prev.some((item) => item.id === message.id);
-        if (hasAlready) return prev;
+        if (hasAlready) return prev; // prevents duplicate UUID insertion
 
         if (message.senderId === currentUserId && message.clientTempId) {
-          return prev.map((item) =>
-            item.clientTempId === message.clientTempId
-              ? { ...message, pending: false }
-              : item,
-          );
+          const hasOptimistic = prev.some((item) => item.clientTempId === message.clientTempId);
+          if (hasOptimistic) {
+            return prev.map((item) =>
+              item.clientTempId === message.clientTempId
+                ? { ...message, pending: false }
+                : item,
+            );
+          }
         }
 
         return [...prev, message];
@@ -121,22 +124,29 @@ function SingleChat({ chat, friend, onUpdateChat }) {
       socket.off("receiveMessage", messageHandler);
       socket.off("messageStatusUpdate", statusHandler);
     };
-  }, [chat.id]);
+  }, [chat.id, currentUserId]);
 
   // Auto-scroll logic on new messages
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  const isSendingRef = useRef(false);
+
   const sendMessage = () => {
-    if (input.trim() !== "" && chat && chat.id && currentUserId) {
+    if (isSendingRef.current) return;
+    const textToSend = input.trim();
+    if (textToSend !== "" && chat && chat.id && currentUserId) {
+      isSendingRef.current = true;
+      setInput(""); // immediately clear to prevent double sends
+      
       const clientTempId =
         globalThis.crypto?.randomUUID?.() || `temp-${Date.now()}`;
 
       const optimisticMessage = {
         id: clientTempId,
         clientTempId,
-        text: input,
+        text: textToSend,
         senderId: currentUserId,
         senderName: user?.username,
         senderAvatar: user?.avatar,
@@ -149,15 +159,20 @@ function SingleChat({ chat, friend, onUpdateChat }) {
       setMessages((prev) => [...prev, optimisticMessage]);
       socket.emit("sendMessage", {
         chatId: chat.id,
-        text: input,
+        text: textToSend,
         senderId: currentUserId,
         clientTempId,
       });
       setOwnMessageStatus((prev) => ({ ...prev, [clientTempId]: "sent" }));
-      setInput("");
+      
       triggerClick();
       // Optionally scroll after sending
       messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+
+      // Unlock for next send
+      setTimeout(() => {
+        isSendingRef.current = false;
+      }, 100);
     }
   };
 
@@ -313,11 +328,12 @@ function SingleChat({ chat, friend, onUpdateChat }) {
   }
 
   return (
-    <div className="flex flex-col h-full min-h-0 bg-[var(--ui-bg)]">
+    <div className="flex flex-col h-full flex-1 min-h-0 w-full bg-[var(--ui-bg)]">
       {/* Messages container */}
       <div
         ref={containerRef}
-        className="flex-1 overflow-y-auto pl-4 pr-4 pt-5 pb-3 bg-[var(--ui-bg)] dark:bg-[#09090b] space-y-2 pb-24"
+        className="flex-1 min-h-0 overflow-y-auto px-4 pt-5 pb-6 bg-[var(--ui-bg)] dark:bg-[#09090b] space-y-2"
+        data-lenis-prevent="true"
       >
         {loadingMessages ? (
           <div className="space-y-4">
@@ -352,6 +368,7 @@ function SingleChat({ chat, friend, onUpdateChat }) {
               status={ownMessageStatus[msg.id]}
               onReact={handleReaction}
               onShowReactions={(messageId) => setReactionsPopup(messageId)}
+              onShowInfo={() => onShowMsgInfo && onShowMsgInfo({ ...msg, status: ownMessageStatus[msg.id] || msg.status })}
             />
           ))
         )}
@@ -360,7 +377,7 @@ function SingleChat({ chat, friend, onUpdateChat }) {
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
             <div className="bg-white dark:bg-[#18181b] dark:text-white p-6 max-w-sm w-full rounded-2xl border-[3px] border-black shadow-xl">
               <h3 className="text-lg font-semibold mb-4">Reactions</h3>
-              <div className="space-y-2 max-h-60 overflow-y-auto">
+              <div className="space-y-2 max-h-60 overflow-y-auto" data-lenis-prevent="true">
                 {/*  msg.reactions look like {emoji,user} */}
                 {messages
                   .find((m) => m.id === reactionsPopup)

@@ -65,7 +65,7 @@ function AllChats() {
           Direct Messages
         </p>
       </div>
-      <div className="flex-1 overflow-y-auto px-2 py-2 space-y-1">
+      <div className="flex-1 overflow-y-auto px-2 py-2 space-y-1" data-lenis-prevent="true">
         {loading ? (
           <div className="flex flex-col space-y-1">
             {Array.from({ length: 8 }).map((_, i) => (

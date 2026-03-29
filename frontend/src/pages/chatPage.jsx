@@ -25,10 +25,12 @@ function ChatPage() {
   }, [user, loading, navigate]);
 
   const [activeChat, setActiveChat] = useState(location.state?.chat);
+  const [selectedMessage, setSelectedMessage] = useState(null);
   const friend = location.state?.friend;
 
   // triggered on first mounting and switching btw diff chats
   useEffect(() => {
+    setSelectedMessage(null);
     if (location.state?.chat) {
       const chatFromState = location.state.chat;
       setActiveChat(chatFromState);
@@ -53,7 +55,7 @@ function ChatPage() {
       <Header onMenuClick={() => setShowSidebar((v) => !v)} />
       {/* Main content area */}
       <div className="flex flex-col flex-1 min-h-0 overflow-hidden relative p-2 md:p-4">
-        <div className="surface-panel w-full h-full min-h-0 flex overflow-hidden">
+        <div className="surface-panel flex-1 w-full min-h-0 flex overflow-hidden">
         {/* Sidebar for AllChats */}
         <aside
           className={`
@@ -82,13 +84,42 @@ function ChatPage() {
                     onUpdateChat={setActiveChat} //will update the activeChat, from returned lockedChat/unlockedChat apis
                   />
                 </div>
-                {/* Single Chat Container - scrolling handled inside SingleChat */}
-                <div className="flex-1 min-h-0 flex flex-col relative overflow-hidden">
-                  <SingleChat
-                    chat={activeChat}
-                    friend={friend}
-                    onUpdateChat={setActiveChat} //will update the activeChat, from returned lockedChat/unlockedChat apis
-                  />
+                {/* Main section: Chat + Sidebar */}
+                <div className="flex-1 min-h-0 flex flex-row relative overflow-hidden">
+                  {/* Single Chat Container - scrolling handled inside SingleChat */}
+                  <div className="flex-1 min-h-0 flex flex-col relative overflow-hidden">
+                    <SingleChat
+                      chat={activeChat}
+                      friend={friend}
+                      onUpdateChat={setActiveChat} //will update the activeChat, from returned lockedChat/unlockedChat apis
+                      onShowMsgInfo={setSelectedMessage}
+                    />
+                  </div>
+
+                  {selectedMessage && (
+                    <aside className="w-80 border-l-[3px] border-black bg-[var(--ui-panel)] dark:bg-[#18181b] flex flex-col min-h-0 z-10 transition-all duration-300">
+                      <div className="p-4 border-b-[3px] border-black flex justify-between items-center bg-[var(--ui-surface)]">
+                        <h3 className="font-bold text-lg text-black dark:text-white">Message Info</h3>
+                        <button onClick={() => setSelectedMessage(null)} className="p-1 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-full">
+                          <FiPlus className="w-6 h-6 rotate-45" />
+                        </button>
+                      </div>
+                      <div className="p-4 overflow-y-auto flex-1 space-y-4">
+                        <div className="bg-white dark:bg-black p-3 rounded-xl border-[3px] border-black shadow-[4px_4px_0_0_#000]">
+                          <p className="text-sm font-semibold mb-1">Message ID</p>
+                          <p className="text-xs text-slate-500 break-all">{selectedMessage.id}</p>
+                        </div>
+                        <div className="bg-white dark:bg-black p-3 rounded-xl border-[3px] border-black shadow-[4px_4px_0_0_#000]">
+                          <p className="text-sm font-semibold mb-1">Status</p>
+                          <p className="text-xs text-slate-500">{selectedMessage.status || 'SENT'}</p>
+                        </div>
+                        <div className="bg-white dark:bg-black p-3 rounded-xl border-[3px] border-black shadow-[4px_4px_0_0_#000]">
+                          <p className="text-sm font-semibold mb-1">Sent At</p>
+                          <p className="text-xs text-slate-500">{new Date(selectedMessage.sentAt || selectedMessage.createdAt).toLocaleString()}</p>
+                        </div>
+                      </div>
+                    </aside>
+                  )}
                 </div>
               </>
             ) : (

@@ -13,6 +13,7 @@ export default function Message({
   onReact,
   onShowReactions,
   status,
+  onShowInfo,
 }) {
   const time = format(new Date(message.sentAt || message.createdAt), "hh:mm a");
 
@@ -104,11 +105,12 @@ export default function Message({
         className={`relative px-3 py-2 rounded-2xl max-w-[80%] w-fit border-[3px] border-black shadow-[4px_4px_0_0_#000]
           ${
             isOwnMessage
-              ? "bg-blue-600 text-white rounded-br-md border-black dark:border-white"
-              : "bg-white text-slate-800 rounded-bl-md dark:bg-[#18181b] dark:text-white dark:border-white"
+              ? "bg-blue-600 text-white rounded-br-md border-black dark:border-white cursor-pointer hover:opacity-90 transition-opacity"
+              : "bg-white text-slate-800 rounded-bl-md dark:bg-[#18181b] dark:text-white dark:border-white cursor-pointer hover:opacity-90 transition-opacity"
           }
         `}
         onContextMenu={handleContextMenu}
+        onClick={onShowInfo}
         style={{ wordBreak: "break-word", overflowWrap: "break-word" }}
       >
         {/* Sender name for group chat */}
