@@ -49,7 +49,7 @@ function ChatPage() {
   }, [location.state?.chat]);
 
   return (
-    <div className="h-[100dvh] flex flex-col bg-[var(--ui-bg)] text-[var(--ui-ink)]">
+    <div className="fixed inset-0 h-[100dvh] flex flex-col bg-[var(--ui-bg)] text-[var(--ui-ink)] overflow-hidden">
       <Header onMenuClick={() => setShowSidebar((v) => !v)} />
       {/* Main content area */}
       <div className="flex flex-col flex-1 min-h-0 overflow-hidden relative p-2 md:p-4">
@@ -93,20 +93,26 @@ function ChatPage() {
               </>
             ) : (
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.35 }}
-                className="flex flex-1 items-center justify-center flex-col space-y-4 dark:text-primary bg-white dark:bg-[#09090b]"
+                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                className="flex flex-1 items-center justify-center flex-col space-y-8 bg-[var(--ui-bg)] dark:bg-[#09090b] p-6"
               >
-                <p className="text-slate-500 font-medium text-center px-4">
-                  Select or create a chat to view messages.
-                </p>
+                <div className="w-48 h-48 bg-white border-[4px] border-black shadow-[8px_8px_0_0_#000] rounded-xl flex items-center justify-center rotate-3 hover:rotate-6 transition-transform duration-300">
+                   <div className="text-6xl">💬</div>
+                </div>
+                <div className="text-center space-y-2 max-w-sm">
+                  <h2 className="text-3xl font-black uppercase tracking-tight text-black dark:text-white">Hit someone up!</h2>
+                  <p className="text-black/70 dark:text-white/70 font-semibold text-lg">
+                    Select a conversation from the sidebar or start a fresh one.
+                  </p>
+                </div>
                 <Button
                   onClick={() => navigate("/new-chat")}
-                  className="p-4 rounded-xl bg-slate-900 text-white dark:bg-white dark:text-slate-900 flex items-center space-x-2"
+                  className="py-4 px-8 rounded-xl bg-[var(--ui-accent)] text-black border-[3px] border-black shadow-[4px_4px_0_0_#000] hover:shadow-[6px_6px_0_0_#000] hover:-translate-y-1 active:translate-y-1 active:shadow-none transition-all flex items-center space-x-3 font-bold text-lg focus-visible:ring-4 focus-visible:ring-black outline-none"
                 >
                   <FiPlus className="w-6 h-6" />
-                  <span>Create New Chat</span>
+                  <span>START CHATTING</span>
                 </Button>
               </motion.div>
             )}
