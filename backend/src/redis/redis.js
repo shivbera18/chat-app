@@ -5,6 +5,10 @@ const isOptional = process.env.REDIS_OPTIONAL !== "false";
 
 const realClient = createClient({
   url: redisUrl,
+  socket: {
+    connectTimeout: 1200,
+    reconnectStrategy: isOptional ? false : undefined,
+  },
 });
 
 const fallbackClient = {
