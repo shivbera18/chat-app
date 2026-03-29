@@ -87,11 +87,11 @@ export default function Message({
       )}
 
       <div
-        className={`relative px-3 py-2 rounded-xl max-w-[80%] w-fit
+        className={`relative px-3 py-2 rounded-xl max-w-[80%] w-fit border-[3px] shadow-[4px_4px_0_#111]
           ${
             isOwnMessage
-              ? "bg-blue-500 dark:bg-[#219ebc] text-white rounded-br-none"
-              : "bg-green-700 dark:bg-accent text-white text-white rounded-bl-none"
+              ? "bg-[#7de2d1] text-black rounded-br-none border-black"
+              : "bg-[#ffe8a3] text-black rounded-bl-none border-black"
           }
         `}
         onContextMenu={handleContextMenu}
@@ -99,13 +99,13 @@ export default function Message({
       >
         {/* Sender name for group chat */}
         {isGroup && !isOwnMessage && (
-          <div className="text-base font-semibold text-rose-300 mb-0.5">
+          <div className="text-base font-bold text-[#b22222] mb-0.5 uppercase">
             {message.senderName}
           </div>
         )}
         <div className="flex flex-wrap items-baseline gap-1 break-words whitespace-pre-wrap">
           <div className="text-base">{message.text}</div>
-          <span className="text-[11px] text-gray-300 ml-2 mt-0.5">{time}</span>
+          <span className="text-[11px] text-gray-700 ml-2 mt-0.5">{time}</span>
         </div>
         {Object.keys(counts).length > 0 && (
           <div
@@ -115,7 +115,7 @@ export default function Message({
             {Object.entries(counts).map(([emoji, cnt]) => (
               <span
                 key={emoji}
-                className="flex items-center px-2 py-0.5 bg-gray-600 rounded-full text-sm"
+                className="flex items-center px-2 py-0.5 bg-[#ff8e72] rounded-full text-sm text-black border-2 border-black"
               >
                 <span className="mr-1">{emoji}</span>
                 <span>{cnt}</span>
@@ -132,7 +132,7 @@ export default function Message({
             top: pickerStyles.top,
             left: pickerStyles.left,
           }}
-          className=" bg-white dark:bg-gray-800 rounded-lg shadow-lg p-2"
+          className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-2 border-[3px] border-black"
         >
           <Picker
             reactionsDefaultOpen={true}

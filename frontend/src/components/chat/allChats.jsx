@@ -39,9 +39,9 @@ function AllChats() {
   }, [location.state?.chat?.id]);
 
   return (
-    <div className="flex flex-col h-full bg-white dark:bg-gray-900 border-r dark:border-gray-800">
-      <div className="p-4 pb-2">
-        <h2 className="text-2xl font-bold dark:text-white tracking-tight">
+    <div className="flex flex-col h-full bg-[#fffdf2] dark:bg-gray-900 border-r-[4px] border-black">
+      <div className="p-4 pb-2 bg-[#ffe156] border-b-[4px] border-black">
+        <h2 className="text-2xl font-extrabold dark:text-white tracking-tight uppercase">
           Chats
         </h2>
       </div>
@@ -83,17 +83,17 @@ function AllChats() {
                 state={{ chat: object.chat, friend: object.friend }}
                 key={`${object.chat.id}-${index}`}
                 onClick={() => triggerClick()}
-                className={`group flex items-center p-3 rounded-2xl transition-all duration-300 relative
+                className={`group flex items-center p-3 rounded-2xl transition-all duration-300 relative border-[3px] border-black shadow-[4px_4px_0_#111]
                 ${
                   location.state?.chat?.id === object.chat.id
-                    ? "bg-blue-50 dark:bg-blue-500/10"
-                    : "hover:bg-gray-100 dark:hover:bg-gray-800/50"
+                    ? "bg-[#7de2d1]"
+                    : "bg-[#fff7cd] hover:-translate-y-0.5"
                 }
               `}
               >
                 {/* Active Indicator Bar */}
                 {location.state?.chat?.id === object.chat.id && (
-                  <div className="absolute left-0 w-1 h-8 bg-blue-500 rounded-r-full" />
+                  <div className="absolute left-0 w-2 h-8 bg-[#ff8e72] rounded-r-full border-r-2 border-black" />
                 )}
 
                 <AvatarComponent
@@ -108,8 +108,8 @@ function AllChats() {
                     className={`truncate font-bold text-base transition-colors duration-200
                   ${
                     location.state?.chat?.id === object.chat.id
-                      ? "text-blue-600 dark:text-blue-400"
-                      : "text-gray-900 dark:text-gray-100 group-hover:text-blue-500"
+                      ? "text-black"
+                      : "text-gray-900 dark:text-gray-100"
                   }
                 `}
                   >
@@ -123,7 +123,7 @@ function AllChats() {
             );
           })
         ) : (
-          <p>No chats available</p>
+          <p className="neo-chip inline-block">No chats available</p>
         )}
       </div>
     </div>
