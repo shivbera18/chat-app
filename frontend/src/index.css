@@ -135,6 +135,6 @@ button:active {
 @media (max-width: 640px) {
   button:hover {
     transform: none;
-    box-shadow: var(--nb-shadow-sm);
+    box-shadow: var(--ui-shadow-sm);
   }
 }

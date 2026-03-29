@@ -86,7 +86,7 @@ App URLs:
 - Frontend: `http://localhost:5173`
 - Backend: `http://localhost:8000`
 
-### 4. Docker Run (recommended for first-time setup)
+### 4. Docker Run (dev mode with hot reload)
 
 From project root:
 
@@ -96,7 +96,7 @@ docker compose up -d --build
 
 Docker URLs:
 
-- Frontend: `http://localhost:5174`
+- Frontend: `http://localhost:5173`
 - Backend: `http://localhost:8000`
 
 Docker includes a Redpanda Kafka broker with:
@@ -109,6 +109,12 @@ To stop containers:
 ```bash
 docker compose down
 ```
+
+Notes:
+
+- Backend and frontend run in watch mode inside Docker.
+- Code changes on your host are bind-mounted and auto-recompiled.
+- If file watching is slow on macOS, keep Docker Desktop file sharing enabled for this repo.
 
 ## API Endpoints
 ### User Authentication & Profile

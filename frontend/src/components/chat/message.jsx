@@ -105,7 +105,7 @@ export default function Message({
           ${
             isOwnMessage
               ? "bg-blue-600 text-white rounded-br-md border-blue-500"
-              : "bg-white text-slate-800 rounded-bl-md border-slate-200 dark:bg-slate-800 dark:text-slate-100 dark:border-slate-700"
+              : "bg-white text-slate-800 rounded-bl-md border-slate-200 dark:bg-slate-900 dark:text-slate-100 dark:border-slate-600"
           }
         `}
         onContextMenu={handleContextMenu}

@@ -307,11 +307,11 @@ function SingleChat({ chat, friend, onUpdateChat }) {
   }
 
   return (
-    <div className="flex flex-col h-full min-h-0 bg-[#f9fbff] dark:bg-slate-950">
+    <div className="flex flex-col h-full min-h-0 bg-[#f9fbff] dark:bg-[#0b1220]">
       {/* Messages container */}
       <div
         ref={containerRef}
-        className="flex-grow overflow-y-auto pl-4 pr-4 pt-5 pb-3 bg-[linear-gradient(180deg,#f9fbff_0%,#f2f6fd_100%)] dark:bg-slate-950 space-y-2 pb-24"
+        className="flex-grow overflow-y-auto pl-4 pr-4 pt-5 pb-3 bg-[linear-gradient(180deg,#f9fbff_0%,#f2f6fd_100%)] dark:bg-[linear-gradient(180deg,#0f172a_0%,#0b1220_100%)] space-y-2 pb-24"
       >
         {loadingMessages ? (
           <div className="space-y-4">
@@ -389,7 +389,7 @@ function SingleChat({ chat, friend, onUpdateChat }) {
       </div>
 
       {/* Input Box fixed at bottom */}
-      <div className="flex-shrink-0 p-3 bg-white/95 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800">
+      <div className="flex-shrink-0 p-3 bg-white/95 dark:bg-[#0f172a] border-t border-slate-200 dark:border-slate-700">
         {isFriendTyping && (
           <div className="mx-4 mb-1 text-sm italic text-gray-600 dark:text-green-500 ">
             {chat.isGroup
@@ -405,7 +405,7 @@ function SingleChat({ chat, friend, onUpdateChat }) {
             value={input}
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
-            className="flex-grow p-3 bg-slate-50 dark:bg-slate-800 dark:text-white rounded-2xl text-sm border border-slate-200 dark:border-slate-700 resize-none max-h-36"
+            className="flex-grow p-3 bg-slate-50 dark:bg-slate-900 dark:text-white rounded-2xl text-sm border border-slate-200 dark:border-slate-600 resize-none max-h-36"
           />
           <Button
             onClick={sendMessage}
