@@ -10,7 +10,17 @@ function AllChats() {
   const location = useLocation();
   const [chats, setChats] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState("");
   const { triggerClick, triggerError } = useAppHaptics();
+
+  const filteredChats = chats.filter((object) => {
+    const displayName =
+      (!object.chat.isGroup
+        ? object.friend?.nickname || object.friend?.username
+        : object.chat.name) || "Unknown";
+
+    return displayName.toLowerCase().includes(search.toLowerCase());
+  });
 
   useEffect(() => {
     api
@@ -39,11 +49,17 @@ function AllChats() {
   }, [location.state?.chat?.id]);
 
   return (
-    <div className="flex flex-col h-full bg-[#fffdf2] dark:bg-gray-900 border-r-[4px] border-black">
-      <div className="p-4 pb-2 bg-[#ffe156] border-b-[4px] border-black">
-        <h2 className="text-2xl font-extrabold dark:text-white tracking-tight uppercase">
+    <div className="flex flex-col h-full bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800">
+      <div className="p-4 pb-3 border-b border-slate-200 dark:border-slate-800">
+        <h2 className="text-2xl font-bold dark:text-white tracking-tight">
           Chats
         </h2>
+        <input
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search chats"
+          className="mt-3 w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-cyan-500/40"
+        />
       </div>
       <div className="flex-grow overflow-y-auto px-2 py-2 space-y-1">
         {loading ? (
@@ -65,8 +81,8 @@ function AllChats() {
               </div>
             ))}
           </div>
-        ) : chats.length > 0 ? (
-          chats.map((object, index) => {
+        ) : filteredChats.length > 0 ? (
+          filteredChats.map((object, index) => {
             const avatar = object.chat.isGroup
               ? object.chat.avatar
               : object.friend?.avatar || null;
@@ -83,17 +99,17 @@ function AllChats() {
                 state={{ chat: object.chat, friend: object.friend }}
                 key={`${object.chat.id}-${index}`}
                 onClick={() => triggerClick()}
-                className={`group flex items-center p-3 rounded-2xl transition-all duration-300 relative border-[3px] border-black shadow-[4px_4px_0_#111]
+                className={`group flex items-center p-3 rounded-2xl transition-all duration-200 relative border
                 ${
                   location.state?.chat?.id === object.chat.id
-                    ? "bg-[#7de2d1]"
-                    : "bg-[#fff7cd] hover:-translate-y-0.5"
+                    ? "bg-cyan-50 border-cyan-200 dark:bg-cyan-900/20 dark:border-cyan-700"
+                    : "bg-white border-slate-200 hover:bg-slate-50 dark:bg-slate-900 dark:border-slate-800 dark:hover:bg-slate-800"
                 }
               `}
               >
                 {/* Active Indicator Bar */}
                 {location.state?.chat?.id === object.chat.id && (
-                  <div className="absolute left-0 w-2 h-8 bg-[#ff8e72] rounded-r-full border-r-2 border-black" />
+                  <div className="absolute left-0 w-1 h-8 bg-cyan-500 rounded-r-full" />
                 )}
 
                 <AvatarComponent
@@ -108,7 +124,7 @@ function AllChats() {
                     className={`truncate font-bold text-base transition-colors duration-200
                   ${
                     location.state?.chat?.id === object.chat.id
-                      ? "text-black"
+                      ? "text-cyan-700 dark:text-cyan-400"
                       : "text-gray-900 dark:text-gray-100"
                   }
                 `}
@@ -123,7 +139,7 @@ function AllChats() {
             );
           })
         ) : (
-          <p className="neo-chip inline-block">No chats available</p>
+          <p className="text-slate-500 px-2 py-4">No chats found</p>
         )}
       </div>
     </div>

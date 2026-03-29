@@ -92,7 +92,7 @@ function ChatNavbar({ chat, friend, onUpdateChat }) {
 
   return (
     <>
-      <div className="sticky top-0 z-10 flex items-center justify-between p-4 border-b-[4px] border-black bg-[#7de2d1] text-black dark:bg-[rgb(0,7,28)] dark:text-white">
+      <div className="sticky top-0 z-10 flex items-center justify-between p-4 border-b border-slate-200 bg-white text-black dark:bg-slate-900 dark:border-slate-800 dark:text-white">
         <div className="flex items-center">
           <AvatarComponent
             profilePicture={profilePicture}
@@ -102,14 +102,14 @@ function ChatNavbar({ chat, friend, onUpdateChat }) {
             boringAvatarClasses="shrink-0 mr-1 overflow-hidden rounded-full"
           />
           <div className="flex flex-col ml-2">
-            <h2 className="text-lg ml-[5px] font-extrabold uppercase tracking-tight">{displayName}</h2>
+            <h2 className="text-lg ml-[5px] font-semibold tracking-tight">{displayName}</h2>
             {!isGroup ? (
               onlineStatus === null ? (
                 <Skeleton shape="rectangle" width={54} height={20} />
               ) : (
                 <p
                   className={`text-sm ml-[5px] ${
-                    onlineStatus ? "text-emerald-700" : "text-gray-700"
+                    onlineStatus ? "text-emerald-600" : "text-slate-500"
                   }`}
                 >
                   {onlineStatus ? "Online" : "Offline"}
@@ -126,20 +126,20 @@ function ChatNavbar({ chat, friend, onUpdateChat }) {
               setDropdownOpen((prev) => !prev);
               triggerClick();
             }}
-            className="p-2 rounded-full bg-[#ffe156]"
+            className="p-2 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700"
             title="Options"
           >
             <FiMoreVertical size={24} />
           </button>
           {dropdownOpen && (
-            <div className="absolute right-0 mt-2 w-52 neo-card z-20 p-1">
+            <div className="absolute right-0 mt-2 w-52 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl shadow-xl z-20 p-1">
               <button
                 onClick={() => {
                   setShowViewAvatarModal(true);
                   setDropdownOpen(false);
                   triggerClick();
                 }}
-                className="w-full flex items-center text-left px-4 py-2 bg-[#ffe8a3] text-black mb-1"
+                className="w-full flex items-center text-left px-4 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 mb-1"
               >
                 <FiEye className="mr-2" size={20} />
                 <span>View Avatar</span>
@@ -150,7 +150,7 @@ function ChatNavbar({ chat, friend, onUpdateChat }) {
                     handleOpenChangeAvatar();
                     triggerClick();
                   }}
-                  className="w-full flex items-center text-left px-4 py-2 bg-[#ffe8a3] text-black mb-1"
+                  className="w-full flex items-center text-left px-4 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 mb-1"
                 >
                   <FiCamera className="mr-2" size={20} />
                   <span>Change Avatar</span>
@@ -161,7 +161,7 @@ function ChatNavbar({ chat, friend, onUpdateChat }) {
                     handleStartSecretChat();
                     triggerClick();
                   }}
-                  className="w-full flex items-center text-left px-4 py-2 bg-[#ffe8a3] text-black mb-1"
+                  className="w-full flex items-center text-left px-4 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 mb-1"
                 >
                   <FiLock className="mr-2" size={20} />
                   <span>Start Secret Chat</span>
@@ -173,7 +173,7 @@ function ChatNavbar({ chat, friend, onUpdateChat }) {
                   setDropdownOpen(false);
                   triggerClick();
                 }}
-                className="w-full flex items-center text-left px-4 py-2 bg-[#ff8e72] text-black"
+                className="w-full flex items-center text-left px-4 py-2 rounded-lg text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-900/20"
               >
                 {currentChat?.isLocked ? (
                   <FiUnlock

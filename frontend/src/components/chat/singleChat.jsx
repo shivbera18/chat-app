@@ -6,7 +6,7 @@ import Message from "./message.jsx";
 import { AuthContext } from "../../services/authContext.jsx";
 import { LockChatModal } from "../modals/lockChatModal.jsx";
 
-import { FiLock } from "react-icons/fi";
+import { FiLock, FiSend } from "react-icons/fi";
 import AvatarComponent from "../utils/avatar.jsx";
 import { Skeleton } from "primereact/skeleton";
 import { useAppHaptics } from "../../utils/useAppHaptics.js";
@@ -24,6 +24,7 @@ function SingleChat({ chat, friend, onUpdateChat }) {
   const [reactionsPopup, setReactionsPopup] = useState(null);
   const [showUnlockModal, setShowUnlockModal] = useState(false);
   const [loadingMessages, setLoadingMessages] = useState(true);
+  const inputRef = useRef(null);
   const { triggerClick, triggerError } = useAppHaptics();
 
   useEffect(() => {
@@ -178,7 +179,10 @@ function SingleChat({ chat, friend, onUpdateChat }) {
   };
 
   const handleKeyDown = (e) => {
-    if (e.key === "Enter") sendMessage();
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
   };
 
   if (chat.isLocked) {
@@ -224,11 +228,11 @@ function SingleChat({ chat, friend, onUpdateChat }) {
   }
 
   return (
-    <div className="flex flex-col h-full min-h-0">
+    <div className="flex flex-col h-full min-h-0 bg-slate-100 dark:bg-slate-950">
       {/* Messages container */}
       <div
         ref={containerRef}
-        className="flex-grow overflow-y-auto pl-5 pr-6 pt-5 pb-3 bg-[#fffdf2] dark:bg-[#1f1f1f] space-y-2 pb-24 border-y-[4px] border-black"
+        className="flex-grow overflow-y-auto pl-4 pr-4 pt-5 pb-3 bg-[radial-gradient(circle_at_top,#ecfeff_0%,#f8fafc_55%,#f8fafc_100%)] dark:bg-slate-950 space-y-2 pb-24"
       >
         {loadingMessages ? (
           <div className="space-y-4">
@@ -268,8 +272,8 @@ function SingleChat({ chat, friend, onUpdateChat }) {
         <div ref={messagesEndRef} />
         {reactionsPopup && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <div className="neo-card dark:text-white p-6 max-w-sm w-full">
-              <h3 className="text-lg font-extrabold mb-4 uppercase">Reactions</h3>
+            <div className="bg-white dark:bg-slate-900 dark:text-white p-6 max-w-sm w-full rounded-2xl border border-slate-200 dark:border-slate-700 shadow-xl">
+              <h3 className="text-lg font-semibold mb-4">Reactions</h3>
               <div className="space-y-2 max-h-60 overflow-y-auto">
                 {/*  msg.reactions look like {emoji,user} */}
                 {messages
@@ -277,7 +281,7 @@ function SingleChat({ chat, friend, onUpdateChat }) {
                   ?.reactions.map((r, i) => (
                     <div
                       key={i}
-                      className="flex items-center gap-3 p-2 bg-[#ffe8a3] dark:bg-[#2c2c2c] rounded-md border-2 border-black"
+                      className="flex items-center gap-3 p-2 bg-slate-50 dark:bg-slate-800 rounded-md border border-slate-200 dark:border-slate-700"
                     >
                       <AvatarComponent
                         profilePicture={r.user.avatar}
@@ -294,7 +298,7 @@ function SingleChat({ chat, friend, onUpdateChat }) {
                   ))}
               </div>
               <button
-                className="mt-4 px-4 py-2 bg-[#ff8e72] text-black"
+                className="mt-4 px-4 py-2 bg-slate-200 text-slate-900 rounded-lg"
                 onClick={() => setReactionsPopup(null)}
               >
                 Close
@@ -305,7 +309,7 @@ function SingleChat({ chat, friend, onUpdateChat }) {
       </div>
 
       {/* Input Box fixed at bottom */}
-      <div className="flex-shrink-0 p-2 bg-[#ffe156] dark:bg-panel border-t-[4px] border-black">
+      <div className="flex-shrink-0 p-3 bg-white/95 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800">
         {isFriendTyping && (
           <div className="mx-4 mb-1 text-sm italic text-gray-600 dark:text-green-500 ">
             {chat.isGroup
@@ -313,20 +317,22 @@ function SingleChat({ chat, friend, onUpdateChat }) {
               : `${friend.username} typing…`}
           </div>
         )}
-        <div className="flex">
-          <input
-            type="text"
+        <div className="flex items-end gap-2">
+          <textarea
+            ref={inputRef}
+            rows={1}
             placeholder="Type a message..."
             value={input}
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
-            className="flex-grow p-2 bg-white dark:bg-slate-600 dark:text-white rounded-full mr-2 text-base"
+            className="flex-grow p-3 bg-slate-100 dark:bg-slate-800 dark:text-white rounded-2xl text-sm border border-slate-200 dark:border-slate-700 resize-none max-h-36"
           />
           <button
             onClick={sendMessage}
-            className="px-4 py-2 rounded-full bg-[#7de2d1] text-black text-base"
+            className="px-4 py-3 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-500 text-white text-base shadow-lg disabled:opacity-60"
+            disabled={!input.trim()}
           >
-            Send
+            <FiSend className="h-4 w-4" />
           </button>
         </div>
       </div>

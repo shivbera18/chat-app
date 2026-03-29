@@ -87,11 +87,11 @@ export default function Message({
       )}
 
       <div
-        className={`relative px-3 py-2 rounded-xl max-w-[80%] w-fit border-[3px] shadow-[4px_4px_0_#111]
+        className={`relative px-3 py-2 rounded-2xl max-w-[80%] w-fit border shadow-sm
           ${
             isOwnMessage
-              ? "bg-[#7de2d1] text-black rounded-br-none border-black"
-              : "bg-[#ffe8a3] text-black rounded-bl-none border-black"
+              ? "bg-cyan-500 text-white rounded-br-md border-cyan-400"
+              : "bg-white text-slate-800 rounded-bl-md border-slate-200 dark:bg-slate-800 dark:text-slate-100 dark:border-slate-700"
           }
         `}
         onContextMenu={handleContextMenu}
@@ -99,13 +99,13 @@ export default function Message({
       >
         {/* Sender name for group chat */}
         {isGroup && !isOwnMessage && (
-          <div className="text-base font-bold text-[#b22222] mb-0.5 uppercase">
+          <div className="text-xs font-semibold text-cyan-600 mb-0.5 uppercase tracking-wide">
             {message.senderName}
           </div>
         )}
         <div className="flex flex-wrap items-baseline gap-1 break-words whitespace-pre-wrap">
           <div className="text-base">{message.text}</div>
-          <span className="text-[11px] text-gray-700 ml-2 mt-0.5">{time}</span>
+          <span className={`text-[11px] ml-2 mt-0.5 ${isOwnMessage ? "text-cyan-100" : "text-slate-500"}`}>{time}</span>
         </div>
         {Object.keys(counts).length > 0 && (
           <div
@@ -115,7 +115,7 @@ export default function Message({
             {Object.entries(counts).map(([emoji, cnt]) => (
               <span
                 key={emoji}
-                className="flex items-center px-2 py-0.5 bg-[#ff8e72] rounded-full text-sm text-black border-2 border-black"
+                className="flex items-center px-2 py-0.5 bg-slate-100 dark:bg-slate-700 rounded-full text-xs text-slate-700 dark:text-white border border-slate-200 dark:border-slate-600"
               >
                 <span className="mr-1">{emoji}</span>
                 <span>{cnt}</span>

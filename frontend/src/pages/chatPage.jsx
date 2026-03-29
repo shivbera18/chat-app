@@ -47,7 +47,7 @@ function ChatPage() {
   }, [location.state?.chat]);
 
   return (
-    <div className="h-screen flex flex-col bg-transparent text-gray-900 dark:text-dark-text">
+    <div className="h-screen flex flex-col bg-slate-100 text-gray-900 dark:bg-[#111827] dark:text-dark-text">
       <Header onMenuClick={() => setShowSidebar((v) => !v)} />
       {/* Main content area */}
       <div className="flex flex-grow overflow-hidden relative">
@@ -57,7 +57,7 @@ function ChatPage() {
             ${showSidebar ? "block" : "hidden"} 
             md:block
             w-full md:w-64 lg:w-80 h-full absolute md:relative z-20
-            neo-card md:rounded-none md:border-r-[4px] md:shadow-none
+            bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800
           `}
           onClick={() => {
             setShowSidebar(false);
@@ -90,10 +90,10 @@ function ChatPage() {
               </>
             ) : (
               <div className="flex flex-grow items-center justify-center flex-col space-y-4 dark:text-primary">
-                <p className="neo-chip">Select or create a chat to view messages.</p>
+                <p className="text-slate-500 font-medium">Select or create a chat to view messages.</p>
                 <button
                   onClick={() => navigate("/new-chat")}
-                  className="p-4 bg-[#ff8e72] text-black flex items-center space-x-2"
+                  className="p-4 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 text-white flex items-center space-x-2 shadow-lg"
                 >
                   <FiPlus className="w-6 h-6" />
                   <span>Create New Chat</span>
