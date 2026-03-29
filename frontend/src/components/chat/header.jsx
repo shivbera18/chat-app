@@ -248,7 +248,7 @@ function Header({ onMenuClick }) {
 
       {showChangeUsernameModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-md bg-black/40 transition-opacity duration-300">
-          <div className="bg-white dark:bg-[rgb(0,7,28)] w-full max-w-sm p-8 rounded-[2rem] shadow-2xl border border-gray-100 dark:border-gray-800 transform transition-all scale-100">
+          <div className="bg-white dark:bg-slate-900 w-full max-w-sm p-8 rounded-[2rem] shadow-2xl border border-gray-100 dark:border-slate-700 transform transition-all scale-100">
             <h2 className="text-xl font-bold mb-6 dark:text-white">
               Change Username
             </h2>

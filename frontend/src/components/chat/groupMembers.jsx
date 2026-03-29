@@ -86,7 +86,7 @@ function GroupMembers({ chat }) {
                 label={`+${groupMembers.length - 5}`}
                 size="normal"
                 shape="circle"
-                className="font-medium bg-gray-200 text-gray-900 dark:bg-gray-600 dark:text-gray-200"
+                className="font-medium bg-slate-200 text-slate-900 dark:bg-slate-700 dark:text-slate-200"
                 style={{
                   width: "32px",
                   height: "32px",
@@ -100,7 +100,7 @@ function GroupMembers({ chat }) {
                 className="ml-[-10px] cursor-pointer"
                 onClick={handleOpenMembers}
               >
-                <MdKeyboardArrowRight size={20} />
+                <MdKeyboardArrowRight size={20} className="text-slate-600 dark:text-slate-300" />
               </div>
             )}
           </AvatarGroup>
