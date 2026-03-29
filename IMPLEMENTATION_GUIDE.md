@@ -133,6 +133,11 @@ Notes:
 
 This repo includes Redpanda (Kafka-compatible broker) in compose.
 
+Listeners:
+
+- internal: `redpanda:9092` (for docker network services)
+- external: `localhost:19092` (for host machine processes)
+
 ### Start stack
 
 ```bash

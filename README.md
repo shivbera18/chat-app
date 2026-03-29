@@ -64,7 +64,7 @@ Notes:
 
 - Backend uses Redis fallback mode in local dev if Redis is not running.
 - To make Redis mandatory, set `REDIS_OPTIONAL=false` in `backend/.env`.
-- Kafka is optional in local dev. To enable it, set `KAFKA_BROKERS` in `backend/.env` (for example: `localhost:9092`).
+- Kafka is optional in local dev. To enable it, set `KAFKA_BROKERS` in `backend/.env` (for example: `localhost:19092`).
 
 ```bash
 cd backend
@@ -99,7 +99,10 @@ Docker URLs:
 - Frontend: `http://localhost:5174`
 - Backend: `http://localhost:8000`
 
-Docker includes a Redpanda Kafka broker exposed at `localhost:9092`.
+Docker includes a Redpanda Kafka broker with:
+
+- internal listener: `redpanda:9092` (for containers)
+- external listener: `localhost:19092` (for host apps)
 
 To stop containers:
 
