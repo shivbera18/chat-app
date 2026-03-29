@@ -1,4 +1,12 @@
+import path from "path";
+import dotenv from "dotenv";
+import { fileURLToPath } from "url";
 import { createClient } from "redis";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+dotenv.config({ path: path.resolve(__dirname, "../../.env") });
 
 const redisUrl = process.env.REDIS_URL || "redis://localhost:6379";
 const isOptional = process.env.REDIS_OPTIONAL !== "false";
