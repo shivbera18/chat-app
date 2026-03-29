@@ -5,10 +5,15 @@ import errorHandler from "./middlewares/errorHandler.js";
 import { ApiError } from "./utils/ApiError.js";
 
 const app = express();
+const allowedOrigins = (process.env.CLIENT_ORIGINS || "http://localhost:5173")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
 app.use(
   cors({
     origin: (origin, callback) => {
-      const isLocal = origin === "http://localhost:5173";
+      const isLocal = !!origin && allowedOrigins.includes(origin);
       const isVercel = origin?.endsWith(".vercel.app");
 
       if (!origin || isLocal || isVercel) {

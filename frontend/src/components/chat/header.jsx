@@ -107,17 +107,17 @@ function Header({ onMenuClick }) {
 
   return (
     <>
-      <header className="sticky top-0 z-50 p-4 border-b bg-white dark:bg-gray-900 dark:text-primary flex justify-between items-center relative">
+      <header className="sticky top-0 z-50 p-4 border-b-[4px] border-black bg-[#ffe156] text-black flex justify-between items-center relative">
         {onMenuClick && (
           <button
             onClick={() => {
               onMenuClick();
               triggerClick();
             }}
-            className="md:hidden p-2 mr-2 relative z-50"
+            className="md:hidden p-2 mr-2 relative z-50 bg-[#7de2d1]"
             aria-label="Toggle sidebar"
           >
-            <FiMenu className="h-6 w-6 text-gray-700 dark:text-gray-200" />
+            <FiMenu className="h-6 w-6 text-black" />
           </button>
         )}
         <div className="flex items-center space-x-4 relative z-50">
@@ -138,7 +138,7 @@ function Header({ onMenuClick }) {
               setMenuOpen((prev) => !prev);
               triggerClick();
             }}
-            className="flex items-center justify-center p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
+            className="flex items-center justify-center p-2 rounded-full bg-white"
             title="Profile Menu"
           >
             {/* Avatar Section: Unified at 48px */}
@@ -172,13 +172,13 @@ function Header({ onMenuClick }) {
             </div>
           </button>
           {menuOpen && (
-            <div className="absolute right-0 mt-2 w-52 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded shadow-lg z-50">
+            <div className="absolute right-0 mt-2 w-52 neo-card z-50 p-1">
               <button
                 onClick={() => {
                   handleCreateChat();
                   triggerClick();
                 }}
-                className="w-full flex items-center text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600"
+                className="w-full flex items-center text-left px-4 py-2 bg-[#7de2d1] text-black mb-1"
               >
                 <FiPlus className="mr-2" size={24} />
                 <span>Create Chat</span>
@@ -188,7 +188,7 @@ function Header({ onMenuClick }) {
                   handleOpenChangeAvatar();
                   triggerClick();
                 }}
-                className="w-full flex items-center text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600"
+                className="w-full flex items-center text-left px-4 py-2 bg-[#ffe8a3] text-black mb-1"
               >
                 <FiCamera className="mr-2" size={20} />
                 <span>Change Avatar</span>
@@ -198,7 +198,7 @@ function Header({ onMenuClick }) {
                   handleOpenChangeUsername();
                   triggerClick();
                 }}
-                className="w-full flex items-center text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600"
+                className="w-full flex items-center text-left px-4 py-2 bg-[#ffe8a3] text-black mb-1"
               >
                 <FiUser className="mr-2" size={20} />
                 <span>Change Username</span>
@@ -208,7 +208,7 @@ function Header({ onMenuClick }) {
                   toggleDarkMode();
                   triggerClick();
                 }}
-                className="w-full flex items-center text-left px-2 py-2 dark:border-gray-700 transition-all"
+                className="w-full flex items-center text-left px-2 py-2 bg-[#ffe8a3] text-black mb-1"
               >
                 {darkMode ? (
                   <SunIcon className="h-6 w-6 text-yellow-400" />
@@ -222,7 +222,7 @@ function Header({ onMenuClick }) {
                   handleLogout();
                   triggerClick();
                 }}
-                className="w-full flex items-center text-left px-4 py-2 text-red-500 hover:bg-gray-100 dark:hover:bg-gray-600"
+                className="w-full flex items-center text-left px-4 py-2 text-black bg-[#ff8e72]"
               >
                 <FiLogOut className="mr-2" size={16} />
                 <span>Logout</span>

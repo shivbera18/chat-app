@@ -1,0 +1,41 @@
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: ping-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: ping-backend
+    restart: unless-stopped
+    env_file:
+      - ./backend/.env
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - CLIENT_ORIGINS=http://localhost:5173,http://127.0.0.1:5173
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: ping-frontend
+    restart: unless-stopped
+    env_file:
+      - ./frontend/.env.local
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+
+volumes:
+  redis_data:

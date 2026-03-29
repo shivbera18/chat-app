@@ -7,10 +7,15 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export const setupSocket = (server) => {
+  const allowedOrigins = (process.env.CLIENT_ORIGINS || "http://localhost:5173")
+    .split(",")
+    .map((origin) => origin.trim())
+    .filter(Boolean);
+
   const io = new Server(server, {
     cors: {
       origin: (origin, callback) => {
-        const isLocal = origin === "http://localhost:5173";
+        const isLocal = !!origin && allowedOrigins.includes(origin);
         const isVercel = origin && origin.endsWith(".vercel.app");
 
         if (!origin || isLocal || isVercel) {

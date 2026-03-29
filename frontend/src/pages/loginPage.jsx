@@ -68,25 +68,23 @@ export default function LoginPage() {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center bg-center bg-cover relative"
+      className="min-h-screen flex items-center justify-center bg-center bg-cover relative px-4 py-8"
       style={{ backgroundImage: `url(${bg})` }}
     >
-      {/* darker overlay for contrast */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-black/20 to-black/10" />
+      <div className="absolute inset-0 bg-[#fff7cd]/50" />
 
       <div className="relative z-10 w-full max-w-md mx-4">
-        {/* card: dark translucent panel */}
-        <div className="rounded-2xl p-8 shadow-xl border border-white/6 bg-black/55">
-          <h1 className="text-2xl mb-4 text-white font-semibold text-center">Welcome back</h1>
+        <div className="neo-card p-8">
+          <h1 className="text-3xl mb-4 text-black font-extrabold text-center uppercase tracking-tight">Welcome back</h1>
 
           {successMessage && (
-            <div className="mb-4 p-3 bg-emerald-900/40 border border-emerald-200/10 text-emerald-100 rounded">
+            <div className="mb-4 p-3 bg-[#b4f3d5] border-[3px] border-black text-black rounded-xl font-semibold">
               {successMessage}
             </div>
           )}
 
           {error && (
-            <div className="mb-4 p-3 bg-red-900/40 border border-red-300/10 text-red-100 rounded">
+            <div className="mb-4 p-3 bg-[#ff8e72] border-[3px] border-black text-black rounded-xl font-semibold">
               {error}
             </div>
           )}
@@ -98,7 +96,7 @@ export default function LoginPage() {
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-3 rounded-lg bg-black/40 placeholder-gray-300 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-emerald-400/60"
+              className="w-full p-3 bg-white placeholder-gray-500 text-black focus:outline-none"
             />
 
             <input
@@ -107,13 +105,13 @@ export default function LoginPage() {
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-3 rounded-lg bg-black/40 placeholder-gray-300 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-emerald-400/60"
+              className="w-full p-3 bg-white placeholder-gray-500 text-black focus:outline-none"
             />
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 rounded-lg bg-emerald-500 hover:bg-emerald-600 text-white font-medium disabled:opacity-60 transition-colors"
+              className="w-full py-3 text-black disabled:opacity-70"
             >
               {loading ? "Logging in..." : "Login"}
             </button>
@@ -122,14 +120,14 @@ export default function LoginPage() {
           <div className="mt-6 text-center">
             <button
               onClick={() => navigate("/register")}
-              className="text-emerald-200 hover:text-white underline"
+              className="px-4 py-2 text-black bg-[#7de2d1]"
             >
               Don&apos;t have an account? Register
             </button>
           </div>
         </div>
 
-        <p className="text-xs text-white/60 mt-4 text-center">
+        <p className="text-xs text-black mt-4 text-center font-semibold">
           Ping — <a className="underline" href="https://ping-v1.vercel.app" target="_blank" rel="noreferrer">ping-v1.vercel.app</a>
         </p>
       </div>

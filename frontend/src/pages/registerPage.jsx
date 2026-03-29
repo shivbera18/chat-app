@@ -54,47 +54,47 @@ export default function RegisterPage() {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center bg-center bg-cover relative"
+      className="min-h-screen flex items-center justify-center bg-center bg-cover relative px-4 py-8"
       style={{ backgroundImage: `url(${bg})` }}
     >
-      <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/60 to-black/50" />
+      <div className="absolute inset-0 bg-[#fff7cd]/55" />
 
       <div className="relative z-10 w-full max-w-md mx-4">
-        <div className="rounded-2xl p-8 shadow-xl border border-white/6 bg-black/55">
-          <h1 className="text-2xl mb-4 text-white font-semibold text-center">Create Account</h1>
+        <div className="neo-card p-8">
+          <h1 className="text-3xl mb-4 text-black font-extrabold text-center uppercase tracking-tight">Create Account</h1>
 
           {error && (
-            <div className="mb-4 p-3 bg-red-900/40 border border-red-300/10 text-red-100 rounded">
+            <div className="mb-4 p-3 bg-[#ff8e72] border-[3px] border-black text-black rounded-xl font-semibold">
               {error}
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
             <input aria-label="Email" type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)}
-              className="w-full p-3 rounded-lg bg-black/40 placeholder-gray-300 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-emerald-400/60" />
+              className="w-full p-3 bg-white placeholder-gray-500 text-black focus:outline-none" />
             <div>
               <input aria-label="Username" type="text" placeholder="Username (3+ characters)" value={username} onChange={e => setUsername(e.target.value)}
-                className="w-full p-3 rounded-lg bg-black/40 placeholder-gray-300 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-emerald-400/60" />
-              <p className="text-xs text-white/60 mt-1">Only letters, numbers, and underscores allowed</p>
+                className="w-full p-3 bg-white placeholder-gray-500 text-black focus:outline-none" />
+              <p className="text-xs text-black mt-1 font-semibold">Only letters, numbers, and underscores allowed</p>
             </div>
             <input aria-label="Password" type="password" placeholder="Password (6+ characters)" value={password} onChange={e => setPassword(e.target.value)}
-              className="w-full p-3 rounded-lg bg-black/40 placeholder-gray-300 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-emerald-400/60" />
+              className="w-full p-3 bg-white placeholder-gray-500 text-black focus:outline-none" />
             <input aria-label="Confirm Password" type="password" placeholder="Confirm Password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)}
-              className="w-full p-3 rounded-lg bg-black/40 placeholder-gray-300 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-emerald-400/60" />
+              className="w-full p-3 bg-white placeholder-gray-500 text-black focus:outline-none" />
 
-            <button disabled={loading} className="w-full py-3 rounded-lg bg-emerald-500 hover:bg-emerald-600 text-white font-medium disabled:opacity-60 transition-colors">
+            <button disabled={loading} className="w-full py-3 text-black disabled:opacity-70">
               {loading ? "Creating Account..." : "Create Account"}
             </button>
           </form>
 
           <div className="mt-6 text-center">
-            <button onClick={() => navigate("/")} className="text-emerald-200 hover:text-white underline">
+            <button onClick={() => navigate("/")} className="px-4 py-2 text-black bg-[#7de2d1]">
               Already have an account? Login
             </button>
           </div>
         </div>
 
-        <p className="text-xs text-white/60 mt-4 text-center">
+        <p className="text-xs text-black mt-4 text-center font-semibold">
           Ping — <a className="underline" href="https://ping-v1.vercel.app" target="_blank" rel="noreferrer">ping-v1.vercel.app</a>
         </p>
       </div>
