@@ -5,6 +5,7 @@ import api from "../../services/api.js";
 
 import AvatarComponent from "../utils/avatar.jsx";
 import { Skeleton } from "primereact/skeleton";
+import { motion } from "motion/react";
 
 function AllChats() {
   const location = useLocation();
@@ -94,19 +95,24 @@ function AllChats() {
 
             return (
               // chat format: [{ chat, friend }, ...]
-              <Link
-                to="/chat"
-                state={{ chat: object.chat, friend: object.friend }}
+              <motion.div
                 key={`${object.chat.id}-${index}`}
-                onClick={() => triggerClick()}
-                className={`group flex items-center p-3 rounded-2xl transition-all duration-200 relative border
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.2, delay: Math.min(index * 0.03, 0.22) }}
+              >
+                <Link
+                  to="/chat"
+                  state={{ chat: object.chat, friend: object.friend }}
+                  onClick={() => triggerClick()}
+                  className={`group flex items-center p-3 rounded-2xl transition-all duration-200 relative border
                 ${
                   location.state?.chat?.id === object.chat.id
                     ? "bg-cyan-50 border-cyan-200 dark:bg-cyan-900/20 dark:border-cyan-700"
                     : "bg-white border-slate-200 hover:bg-slate-50 dark:bg-slate-900 dark:border-slate-800 dark:hover:bg-slate-800"
                 }
               `}
-              >
+                >
                 {/* Active Indicator Bar */}
                 {location.state?.chat?.id === object.chat.id && (
                   <div className="absolute left-0 w-1 h-8 bg-cyan-500 rounded-r-full" />
@@ -135,7 +141,8 @@ function AllChats() {
                     {object.chat.isGroup ? "Group Chat" : "Direct Message"}
                   </span>
                 </div>
-              </Link>
+                </Link>
+              </motion.div>
             );
           })
         ) : (

@@ -10,6 +10,7 @@ import { FiLock, FiSend } from "react-icons/fi";
 import AvatarComponent from "../utils/avatar.jsx";
 import { Skeleton } from "primereact/skeleton";
 import { useAppHaptics } from "../../utils/useAppHaptics.js";
+import { Button } from "../ui/button.jsx";
 
 function SingleChat({ chat, friend, onUpdateChat }) {
   const { user } = useContext(AuthContext);
@@ -24,7 +25,9 @@ function SingleChat({ chat, friend, onUpdateChat }) {
   const [reactionsPopup, setReactionsPopup] = useState(null);
   const [showUnlockModal, setShowUnlockModal] = useState(false);
   const [loadingMessages, setLoadingMessages] = useState(true);
+  const [ownMessageStatus, setOwnMessageStatus] = useState({});
   const inputRef = useRef(null);
+  const lastSeenMessageRef = useRef(null);
   const { triggerClick, triggerError } = useAppHaptics();
 
   useEffect(() => {
@@ -55,7 +58,16 @@ function SingleChat({ chat, friend, onUpdateChat }) {
         .get(`/messages/${chat.id}`)
         .then((response) => {
           if (response.data && response.data.data) {
-            setMessages(response.data.data);
+            const fetched = response.data.data;
+            setMessages(fetched);
+            const initialStatus = fetched.reduce((acc, msg) => {
+              if (msg.senderId === currentUserId) {
+                acc[msg.id] = "delivered";
+              }
+              return acc;
+            }, {});
+            setOwnMessageStatus(initialStatus);
+            lastSeenMessageRef.current = null;
           }
         })
         .catch((err) => {
@@ -69,11 +81,39 @@ function SingleChat({ chat, friend, onUpdateChat }) {
   useEffect(() => {
     const messageHandler = (message) => {
       if (message.chatId !== chat.id) return;
-      setMessages((prev) => [...prev, message]);
+
+      setMessages((prev) => {
+        const hasAlready = prev.some((item) => item.id === message.id);
+        if (hasAlready) return prev;
+
+        if (message.senderId === currentUserId && message.clientTempId) {
+          return prev.map((item) =>
+            item.clientTempId === message.clientTempId
+              ? { ...message, pending: false }
+              : item,
+          );
+        }
+
+        return [...prev, message];
+      });
+
+      if (message.senderId === currentUserId) {
+        setOwnMessageStatus((prev) => ({ ...prev, [message.id]: "delivered" }));
+      }
     };
+
+    const seenHandler = ({ chatId, messageId, userId }) => {
+      if (chatId !== chat.id) return;
+      if (userId === currentUserId) return;
+
+      setOwnMessageStatus((prev) => ({ ...prev, [messageId]: "seen" }));
+    };
+
     socket.on("receiveMessage", messageHandler);
+    socket.on("messageSeenUpdate", seenHandler);
     return () => {
       socket.off("receiveMessage", messageHandler);
+      socket.off("messageSeenUpdate", seenHandler);
     };
   }, [chat.id]);
 
@@ -84,11 +124,30 @@ function SingleChat({ chat, friend, onUpdateChat }) {
 
   const sendMessage = () => {
     if (input.trim() !== "" && chat && chat.id && currentUserId) {
+      const clientTempId =
+        globalThis.crypto?.randomUUID?.() || `temp-${Date.now()}`;
+
+      const optimisticMessage = {
+        id: clientTempId,
+        clientTempId,
+        text: input,
+        senderId: currentUserId,
+        senderName: user?.username,
+        senderAvatar: user?.avatar,
+        sentAt: new Date().toISOString(),
+        chatId: chat.id,
+        reactions: [],
+        pending: true,
+      };
+
+      setMessages((prev) => [...prev, optimisticMessage]);
       socket.emit("sendMessage", {
         chatId: chat.id,
         text: input,
         senderId: currentUserId,
+        clientTempId,
       });
+      setOwnMessageStatus((prev) => ({ ...prev, [clientTempId]: "sent" }));
       setInput("");
       triggerClick();
       // Optionally scroll after sending
@@ -98,7 +157,27 @@ function SingleChat({ chat, friend, onUpdateChat }) {
 
   useEffect(() => {
     setInput(""); // Clear input whenever the chat changes
+    setOwnMessageStatus({});
+    lastSeenMessageRef.current = null;
   }, [chat]);
+
+  useEffect(() => {
+    if (!chat?.id || !currentUserId || !messages.length) return;
+
+    const lastIncoming = [...messages]
+      .reverse()
+      .find((msg) => msg.senderId !== currentUserId && !msg.pending);
+
+    if (!lastIncoming) return;
+    if (lastSeenMessageRef.current === lastIncoming.id) return;
+
+    lastSeenMessageRef.current = lastIncoming.id;
+    socket.emit("markSeen", {
+      chatId: chat.id,
+      messageId: lastIncoming.id,
+      userId: currentUserId,
+    });
+  }, [messages, chat?.id, currentUserId]);
 
   const handleInputChange = (e) => {
     setInput(e.target.value);
@@ -264,6 +343,7 @@ function SingleChat({ chat, friend, onUpdateChat }) {
               message={msg}
               isGroup={chat.isGroup}
               isOwnMessage={msg.senderId === currentUserId}
+              status={ownMessageStatus[msg.id]}
               onReact={handleReaction}
               onShowReactions={(messageId) => setReactionsPopup(messageId)}
             />
@@ -327,13 +407,13 @@ function SingleChat({ chat, friend, onUpdateChat }) {
             onKeyDown={handleKeyDown}
             className="flex-grow p-3 bg-slate-100 dark:bg-slate-800 dark:text-white rounded-2xl text-sm border border-slate-200 dark:border-slate-700 resize-none max-h-36"
           />
-          <button
+          <Button
             onClick={sendMessage}
-            className="px-4 py-3 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-500 text-white text-base shadow-lg disabled:opacity-60"
+            className="px-4 py-3 rounded-2xl bg-[#7de2d1] text-black text-base disabled:opacity-60"
             disabled={!input.trim()}
           >
             <FiSend className="h-4 w-4" />
-          </button>
+          </Button>
         </div>
       </div>
     </div>

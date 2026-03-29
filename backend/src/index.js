@@ -2,6 +2,7 @@ import { createServer } from "http";
 import app from "./app.js";
 import dotenv from "dotenv";
 import { setupSocket } from "./webSockets/socket.js";
+import { startKafka } from "./kafka/kafka.js";
 
 dotenv.config({ path: "./.env" });
 
@@ -14,6 +15,8 @@ const PORT = process.env.PORT || 8000;
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+startKafka();
 
 // Global error handlers to prevent crashes
 process.on('uncaughtException', (error) => {

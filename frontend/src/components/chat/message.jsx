@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useRef, useEffect } from "react";
 import { format } from "date-fns";
 import AvatarComponent from "../utils/avatar.jsx";
+import { motion } from "motion/react";
 
 import Picker from "emoji-picker-react";
 
@@ -11,6 +12,7 @@ export default function Message({
   isGroup,
   onReact,
   onShowReactions,
+  status,
 }) {
   const time = format(new Date(message.sentAt || message.createdAt), "hh:mm a");
 
@@ -69,8 +71,20 @@ export default function Message({
     setShowPicker(false);
   };
 
+  const statusLabel =
+    status === "seen" ? "✓✓" : status === "delivered" ? "✓✓" : "✓";
+  const statusColor =
+    status === "seen"
+      ? "text-cyan-200"
+      : status === "delivered"
+        ? "text-slate-200"
+        : "text-slate-300";
+
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0, y: 8, scale: 0.98 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{ duration: 0.18 }}
       className={`flex items-end gap-2 mb-1 px-2 ${
         isOwnMessage ? "justify-end" : "justify-start"
       }`}
@@ -105,7 +119,21 @@ export default function Message({
         )}
         <div className="flex flex-wrap items-baseline gap-1 break-words whitespace-pre-wrap">
           <div className="text-base">{message.text}</div>
-          <span className={`text-[11px] ml-2 mt-0.5 ${isOwnMessage ? "text-cyan-100" : "text-slate-500"}`}>{time}</span>
+          <span
+            className={`text-[11px] ml-2 mt-0.5 ${
+              isOwnMessage ? "text-cyan-100" : "text-slate-500"
+            }`}
+          >
+            {time}
+          </span>
+          {isOwnMessage && (
+            <span
+              className={`text-[10px] font-bold tracking-tight ${statusColor}`}
+              title={status || "sent"}
+            >
+              {statusLabel}
+            </span>
+          )}
         </div>
         {Object.keys(counts).length > 0 && (
           <div
@@ -141,6 +169,6 @@ export default function Message({
           />
         </div>
       )}
-    </div>
+    </motion.div>
   );
 }

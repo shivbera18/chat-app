@@ -6,6 +6,29 @@ services:
     volumes:
       - redis_data:/data
 
+  redpanda:
+    image: docker.redpanda.com/redpandadata/redpanda:v24.2.15
+    container_name: ping-redpanda
+    restart: unless-stopped
+    command:
+      - redpanda
+      - start
+      - --overprovisioned
+      - --smp
+      - "1"
+      - --memory
+      - "512M"
+      - --reserve-memory
+      - "0M"
+      - --check=false
+      - --kafka-addr
+      - PLAINTEXT://0.0.0.0:9092
+      - --advertise-kafka-addr
+      - PLAINTEXT://redpanda:9092
+    ports:
+      - "9092:9092"
+      - "9644:9644"
+
   backend:
     build:
       context: ./backend
@@ -16,11 +39,13 @@ services:
       - ./backend/.env
     environment:
       - REDIS_URL=redis://redis:6379
+      - KAFKA_BROKERS=redpanda:9092
       - CLIENT_ORIGINS=http://localhost:5173,http://127.0.0.1:5173,http://localhost:5174,http://127.0.0.1:5174
     ports:
       - "8000:8000"
     depends_on:
       - redis
+      - redpanda
 
   frontend:
     build:

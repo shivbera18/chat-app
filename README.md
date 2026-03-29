@@ -4,8 +4,8 @@
 
 ## Tech Stack
 
-- **Frontend:** HTML, CSS, JavaScript, React, Tailwind CSS
-- **Backend:** Express, Prisma, PostgreSQL, Redis, Socket.IO
+- **Frontend:** HTML, CSS, JavaScript, React, Tailwind CSS, shadcn-style UI primitives, Motion, Lenis
+- **Backend:** Express, Prisma, PostgreSQL, Redis, Socket.IO, Kafka (KafkaJS)
 - **Others:** JWT authentication, server-side rate limiting, and Redis caching
 
 ## Features
@@ -14,8 +14,12 @@
   Instant messaging via Socket.IO with an Optimistic UI for low-latency updates.
 - **Direct & Group Chats:**  
   Chat one-on-one or in groups.
+- **Read Receipts:**
+  WhatsApp-like real-time seen updates for delivered messages.
 - **Secret Chat:**  
   Secure secret chats where messages are ephemeral and automatically removed after 5 minutes of inactivity.
+- **Event Streaming:**
+  Kafka-powered chat event stream (`chat.message.sent`, `chat.message.seen`, typing events) for future analytics/notifications.
 - **Performance Optimizations:**  
   Uses Redis caching and server-side rate limiting to efficiently handle high volumes of messages.
 - **Secure Authentication:**  
@@ -60,6 +64,7 @@ Notes:
 
 - Backend uses Redis fallback mode in local dev if Redis is not running.
 - To make Redis mandatory, set `REDIS_OPTIONAL=false` in `backend/.env`.
+- Kafka is optional in local dev. To enable it, set `KAFKA_BROKERS` in `backend/.env` (for example: `localhost:9092`).
 
 ```bash
 cd backend
@@ -93,6 +98,8 @@ Docker URLs:
 
 - Frontend: `http://localhost:5174`
 - Backend: `http://localhost:8000`
+
+Docker includes a Redpanda Kafka broker exposed at `localhost:9092`.
 
 To stop containers:
 

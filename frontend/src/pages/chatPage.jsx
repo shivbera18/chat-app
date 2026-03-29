@@ -7,6 +7,8 @@ import AllChats from "../components/chat/allChats.jsx";
 import SingleChat from "../components/chat/singleChat.jsx";
 import ChatNavbar from "../components/chat/chatNavbar.jsx";
 import api from "../services/api.js";
+import { Button } from "../components/ui/button.jsx";
+import { motion } from "motion/react";
 
 import { FiPlus } from "react-icons/fi";
 
@@ -89,16 +91,23 @@ function ChatPage() {
                 </div>
               </>
             ) : (
-              <div className="flex flex-grow items-center justify-center flex-col space-y-4 dark:text-primary">
-                <p className="text-slate-500 font-medium">Select or create a chat to view messages.</p>
-                <button
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.35 }}
+                className="flex flex-grow items-center justify-center flex-col space-y-4 dark:text-primary"
+              >
+                <p className="text-slate-500 font-medium">
+                  Select or create a chat to view messages.
+                </p>
+                <Button
                   onClick={() => navigate("/new-chat")}
-                  className="p-4 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 text-white flex items-center space-x-2 shadow-lg"
+                  className="p-4 rounded-xl bg-[#7de2d1] text-black flex items-center space-x-2"
                 >
                   <FiPlus className="w-6 h-6" />
                   <span>Create New Chat</span>
-                </button>
-              </div>
+                </Button>
+              </motion.div>
             )}
           </main>
         )}

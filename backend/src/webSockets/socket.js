@@ -3,6 +3,7 @@ import { Server } from "socket.io";
 import { client } from "../redis/redis.js";
 import { createMessage } from "../controllers/message.controller.js";
 import { prisma } from "../db/prisma.js";
+import { publishChatEvent } from "../kafka/kafka.js";
 
 export const setupSocket = (server) => {
   const allowedOrigins = (process.env.CLIENT_ORIGINS || "http://localhost:5173")
@@ -32,7 +33,8 @@ export const setupSocket = (server) => {
     console.log(`User connected: ${socket.id}`);
 
     socket.on("joinRoom", async (data) => {
-      const { chatId } = data;
+      const { chatId, userId } = data;
+      socket.data.userId = userId;
       console.log(
         `user is connected with another user, having chatId : ${chatId}`,
       );
@@ -41,7 +43,7 @@ export const setupSocket = (server) => {
 
     // Handle sending messages
     socket.on("sendMessage", async (data) => {
-      const { chatId, text, senderId } = data;
+      const { chatId, text, senderId, clientTempId } = data;
       console.log("Sending message with:", { chatId, text, senderId });
       if (chatId && text && senderId) {
         try {
@@ -65,6 +67,14 @@ export const setupSocket = (server) => {
             senderAvatar: sender.avatar,
             sentAt: savedMessage.createdAt,
             chatId: savedMessage.chatId,
+            clientTempId,
+          });
+
+          await publishChatEvent("chat.message.sent", {
+            chatId: savedMessage.chatId,
+            messageId: savedMessage.id,
+            senderId: savedMessage.senderId,
+            clientTempId,
           });
 
           console.log("Message sent to chat:", chatId);
@@ -97,10 +107,28 @@ export const setupSocket = (server) => {
     socket.on("typing", async (data) => {
       const { chatId, userId } = data;
       socket.to(chatId).emit("userTyping", { chatId, userId });
+      await publishChatEvent("chat.typing.started", { chatId, userId });
     });
 
     socket.on("stopTyping", ({ chatId, userId }) => {
       socket.to(chatId).emit("userStopTyping", { userId });
+      publishChatEvent("chat.typing.stopped", { chatId, userId });
+    });
+
+    socket.on("markSeen", async ({ chatId, messageId, userId }) => {
+      if (!chatId || !messageId || !userId) {
+        return;
+      }
+
+      const seenAt = new Date().toISOString();
+      io.to(chatId).emit("messageSeenUpdate", { chatId, messageId, userId, seenAt });
+
+      await publishChatEvent("chat.message.seen", {
+        chatId,
+        messageId,
+        userId,
+        seenAt,
+      });
     });
 
     socket.on("sendSecretMessage", async (data) => {
