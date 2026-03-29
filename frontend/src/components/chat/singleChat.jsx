@@ -307,11 +307,11 @@ function SingleChat({ chat, friend, onUpdateChat }) {
   }
 
   return (
-    <div className="flex flex-col h-full min-h-0 bg-slate-100 dark:bg-slate-950">
+    <div className="flex flex-col h-full min-h-0 bg-[#f9fbff] dark:bg-slate-950">
       {/* Messages container */}
       <div
         ref={containerRef}
-        className="flex-grow overflow-y-auto pl-4 pr-4 pt-5 pb-3 bg-[radial-gradient(circle_at_top,#ecfeff_0%,#f8fafc_55%,#f8fafc_100%)] dark:bg-slate-950 space-y-2 pb-24"
+        className="flex-grow overflow-y-auto pl-4 pr-4 pt-5 pb-3 bg-[linear-gradient(180deg,#f9fbff_0%,#f2f6fd_100%)] dark:bg-slate-950 space-y-2 pb-24"
       >
         {loadingMessages ? (
           <div className="space-y-4">
@@ -405,11 +405,11 @@ function SingleChat({ chat, friend, onUpdateChat }) {
             value={input}
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
-            className="flex-grow p-3 bg-slate-100 dark:bg-slate-800 dark:text-white rounded-2xl text-sm border border-slate-200 dark:border-slate-700 resize-none max-h-36"
+            className="flex-grow p-3 bg-slate-50 dark:bg-slate-800 dark:text-white rounded-2xl text-sm border border-slate-200 dark:border-slate-700 resize-none max-h-36"
           />
           <Button
             onClick={sendMessage}
-            className="px-4 py-3 rounded-2xl bg-[#7de2d1] text-black text-base disabled:opacity-60"
+            className="px-4 py-3 rounded-2xl bg-slate-900 text-white dark:bg-white dark:text-slate-900 text-base disabled:opacity-60"
             disabled={!input.trim()}
           >
             <FiSend className="h-4 w-4" />

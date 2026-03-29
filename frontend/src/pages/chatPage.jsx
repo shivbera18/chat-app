@@ -49,10 +49,11 @@ function ChatPage() {
   }, [location.state?.chat]);
 
   return (
-    <div className="h-screen flex flex-col bg-slate-100 text-gray-900 dark:bg-[#111827] dark:text-dark-text">
+    <div className="h-screen flex flex-col bg-[#eef1f7] text-gray-900 dark:bg-slate-950 dark:text-dark-text">
       <Header onMenuClick={() => setShowSidebar((v) => !v)} />
       {/* Main content area */}
-      <div className="flex flex-grow overflow-hidden relative">
+      <div className="flex flex-grow overflow-hidden relative p-2 md:p-4">
+        <div className="surface-panel w-full flex overflow-hidden">
         {/* Sidebar for AllChats */}
         <aside
           className={`
@@ -95,14 +96,14 @@ function ChatPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.35 }}
-                className="flex flex-grow items-center justify-center flex-col space-y-4 dark:text-primary"
+                className="flex flex-grow items-center justify-center flex-col space-y-4 dark:text-primary bg-[#f9fbff] dark:bg-slate-900"
               >
-                <p className="text-slate-500 font-medium">
+                <p className="text-slate-500 font-medium text-center px-4">
                   Select or create a chat to view messages.
                 </p>
                 <Button
                   onClick={() => navigate("/new-chat")}
-                  className="p-4 rounded-xl bg-[#7de2d1] text-black flex items-center space-x-2"
+                  className="p-4 rounded-xl bg-slate-900 text-white dark:bg-white dark:text-slate-900 flex items-center space-x-2"
                 >
                   <FiPlus className="w-6 h-6" />
                   <span>Create New Chat</span>
@@ -111,6 +112,7 @@ function ChatPage() {
             )}
           </main>
         )}
+        </div>
       </div>
     </div>
   );

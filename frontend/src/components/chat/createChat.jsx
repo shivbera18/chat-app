@@ -103,7 +103,7 @@ function CreateChat({ currentUserId }) {
   };
 
   return (
-    <div className="p-4 border rounded shadow dark:text-white">
+    <div className="p-4 rounded-2xl bg-[#f8fafc] dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm dark:text-white">
       <input
         type="text"
         placeholder="Search for a friend or group"
@@ -112,7 +112,7 @@ function CreateChat({ currentUserId }) {
           setSearchQuery(e.target.value);
           setSelectedFriend(null);
         }}
-        className="mt-2 p-2 border rounded w-full dark:bg-slate-950"
+        className="mt-2 p-2 border border-slate-200 rounded-lg w-full bg-white dark:bg-slate-950"
       />
 
       {chatType === "direct" && (
@@ -123,7 +123,7 @@ function CreateChat({ currentUserId }) {
               <div
                 key={user.id}
                 onClick={() => handleDirectChatClick(user)}
-                className="flex items-center p-2 border-b cursor-pointer hover:bg-blue-100 hover:rounded-md dark:hover:bg-gray-600 transition-colors"
+                className="flex items-center p-2 border-b border-slate-200 dark:border-slate-700 cursor-pointer hover:bg-blue-50 rounded-md dark:hover:bg-gray-600 transition-colors"
               >
                 <AvatarComponent
                   profilePicture={user.avatar}
@@ -156,7 +156,7 @@ function CreateChat({ currentUserId }) {
               <div
                 key={group.id}
                 onClick={() => handleGroupChatClick(group)}
-                className="flex items-center p-1 cursor-pointer hover:bg-blue-100 hover:rounded-md dark:hover:bg-gray-700 dark:text-subtext"
+                className="flex items-center p-2 cursor-pointer hover:bg-blue-50 rounded-md dark:hover:bg-gray-700 dark:text-subtext"
               >
                 <AvatarComponent
                   profilePicture={group.avatar}
@@ -180,7 +180,7 @@ function CreateChat({ currentUserId }) {
                   triggerSelection();
                   addGroupMember(user);
                 }}
-                className="flex items-center p-2 border-b cursor-pointer hover:bg-blue-100 hover:rounded-md dark:hover:bg-gray-600 transition-colors"
+                className="flex items-center p-2 border-b border-slate-200 dark:border-slate-700 cursor-pointer hover:bg-blue-50 rounded-md dark:hover:bg-gray-600 transition-colors"
               >
                 <AvatarComponent
                   profilePicture={user.avatar}
@@ -213,7 +213,7 @@ function CreateChat({ currentUserId }) {
                       triggerSelection();
                       removeGroupMember(member);
                     }}
-                    className="flex items-center p-2 border-b cursor-pointer hover:bg-blue-100 hover:rounded-md dark:hover:bg-gray-600 transition-colors"
+                    className="flex items-center p-2 border-b border-slate-200 dark:border-slate-700 cursor-pointer hover:bg-blue-50 rounded-md dark:hover:bg-gray-600 transition-colors"
                   >
                     <AvatarComponent
                       profilePicture={member.avatar}
@@ -240,7 +240,7 @@ function CreateChat({ currentUserId }) {
               triggerClick();
               handleCreateGroupChat();
             }}
-            className="mt-4 p-2 border rounded-md bg-blue-500 text-white"
+            className="mt-4 p-2 border rounded-md bg-slate-900 text-white dark:bg-white dark:text-slate-900"
           >
             Create Group Chat
           </button>
@@ -252,7 +252,7 @@ function CreateChat({ currentUserId }) {
           triggerClick();
           handleToggle();
         }}
-        className="mt-2 p-2 border rounded-md bg-gray-200 dark:bg-slate-950"
+        className="mt-2 p-2 border rounded-md bg-slate-100 dark:bg-slate-950"
       >
         Switch to {chatType === "direct" ? "Group Chat" : "Direct Chat"}
       </button>

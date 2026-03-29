@@ -107,128 +107,129 @@ function Header({ onMenuClick }) {
 
   return (
     <>
-      <header className="sticky top-0 z-50 p-4 border-b-[4px] border-black bg-[#ffe156] text-black flex justify-between items-center relative">
-        {onMenuClick && (
-          <button
-            onClick={() => {
-              onMenuClick();
-              triggerClick();
-            }}
-            className="md:hidden p-2 mr-2 relative z-50 bg-[#7de2d1]"
-            aria-label="Toggle sidebar"
-          >
-            <FiMenu className="h-6 w-6 text-black" />
-          </button>
-        )}
-        <div className="flex items-center space-x-4 relative z-50">
-          <button
-            onClick={() => {
-              navigate("/chat", { state: {} });
-              triggerClick();
-            }}
-            className="text-2xl font-bold relative"
-          >
-            Ping
-          </button>
-        </div>
-        <div className="relative z-50" ref={menuRef}>
-          {/* Profile section: current user's avatar and username */}
-          <button
-            onClick={() => {
-              setMenuOpen((prev) => !prev);
-              triggerClick();
-            }}
-            className="flex items-center justify-center p-2 rounded-full bg-white"
-            title="Profile Menu"
-          >
-            {/* Avatar Section: Unified at 48px */}
-            <div className="relative shrink-0 w-[48px] h-[48px] mr-3">
-              {loading ? (
-                <Skeleton
-                  shape="circle"
-                  size="48px"
-                  className="absolute inset-0"
-                />
-              ) : (
-                <AvatarComponent
-                  profilePicture={user?.avatar}
-                  displayName={user?.username}
-                  size="48px"
-                  avatarClasses="shrink-0 overflow-hidden"
-                  boringAvatarClasses="shrink-0 overflow-hidden rounded-full"
-                />
-              )}
-            </div>
+      <header className="sticky top-0 z-50 px-3 py-3 md:px-5 bg-[#eef1f7]/90 dark:bg-slate-950/80 backdrop-blur border-b border-slate-200 dark:border-slate-800">
+        <div className="surface-panel px-3 py-2 md:px-4 md:py-3 flex justify-between items-center gap-3">
+          <div className="flex items-center gap-2">
+            {onMenuClick && (
+              <button
+                onClick={() => {
+                  onMenuClick();
+                  triggerClick();
+                }}
+                className="md:hidden p-2 bg-white dark:bg-slate-900"
+                aria-label="Toggle sidebar"
+              >
+                <FiMenu className="h-5 w-5 text-slate-700 dark:text-slate-200" />
+              </button>
+            )}
+            <button
+              onClick={() => {
+                navigate("/chat", { state: {} });
+                triggerClick();
+              }}
+              className="px-3 py-2 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-extrabold tracking-tight"
+            >
+              Ping
+            </button>
+          </div>
 
-            {/* Username Section: Stable container with large text */}
-            <div className="relative h-10 flex items-center min-w-[100px]">
-              {loading ? (
-                <Skeleton width="104px" height="1.5rem" />
-              ) : (
-                <span className="text-xl ml-1 font-semibold w-15 text-gray-900 dark:text-white truncate max-w-[100px] ml-1">
-                  {user?.username}
-                </span>
-              )}
-            </div>
-          </button>
-          {menuOpen && (
-            <div className="absolute right-0 mt-2 w-52 neo-card z-50 p-1">
-              <button
-                onClick={() => {
-                  handleCreateChat();
-                  triggerClick();
-                }}
-                className="w-full flex items-center text-left px-4 py-2 bg-[#7de2d1] text-black mb-1"
-              >
-                <FiPlus className="mr-2" size={24} />
-                <span>Create Chat</span>
-              </button>
-              <button
-                onClick={() => {
-                  handleOpenChangeAvatar();
-                  triggerClick();
-                }}
-                className="w-full flex items-center text-left px-4 py-2 bg-[#ffe8a3] text-black mb-1"
-              >
-                <FiCamera className="mr-2" size={20} />
-                <span>Change Avatar</span>
-              </button>
-              <button
-                onClick={() => {
-                  handleOpenChangeUsername();
-                  triggerClick();
-                }}
-                className="w-full flex items-center text-left px-4 py-2 bg-[#ffe8a3] text-black mb-1"
-              >
-                <FiUser className="mr-2" size={20} />
-                <span>Change Username</span>
-              </button>
-              <button
-                onClick={() => {
-                  toggleDarkMode();
-                  triggerClick();
-                }}
-                className="w-full flex items-center text-left px-2 py-2 bg-[#ffe8a3] text-black mb-1"
-              >
-                {darkMode ? (
-                  <SunIcon className="h-6 w-6 text-yellow-400" />
+          <div className="relative" ref={menuRef}>
+            <button
+              onClick={() => {
+                setMenuOpen((prev) => !prev);
+                triggerClick();
+              }}
+              className="flex items-center justify-center gap-2 p-2 rounded-xl bg-white dark:bg-slate-900"
+              title="Profile Menu"
+            >
+              <div className="relative shrink-0 w-[40px] h-[40px]">
+                {loading ? (
+                  <Skeleton
+                    shape="circle"
+                    size="40px"
+                    className="absolute inset-0"
+                  />
                 ) : (
-                  <MoonIcon className="h-6 w-6 text-gray-800" />
+                  <AvatarComponent
+                    profilePicture={user?.avatar}
+                    displayName={user?.username}
+                    size="40px"
+                    avatarClasses="shrink-0 overflow-hidden"
+                    boringAvatarClasses="shrink-0 overflow-hidden rounded-full"
+                  />
                 )}
-                <span className="pl-2">Change Theme</span>
-              </button>
-              <button
-                onClick={() => {
-                  handleLogout();
-                  triggerClick();
-                }}
-                className="w-full flex items-center text-left px-4 py-2 text-black bg-[#ff8e72]"
-              >
-                <FiLogOut className="mr-2" size={16} />
-                <span>Logout</span>
-              </button>
-            </div>
-          )}
+              </div>
+
+              <div className="relative h-8 items-center min-w-[90px] hidden sm:flex">
+                {loading ? (
+                  <Skeleton width="95px" height="1.2rem" />
+                ) : (
+                  <span className="text-sm font-semibold text-slate-700 dark:text-slate-200 truncate max-w-[95px]">
+                    {user?.username}
+                  </span>
+                )}
+              </div>
+            </button>
+
+            {menuOpen && (
+              <div className="absolute right-0 mt-2 w-56 neo-card z-50 p-1.5 space-y-1">
+                <button
+                  onClick={() => {
+                    handleCreateChat();
+                    triggerClick();
+                  }}
+                  className="w-full flex items-center text-left px-3 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200"
+                >
+                  <FiPlus className="mr-2" size={18} />
+                  <span>Create Chat</span>
+                </button>
+                <button
+                  onClick={() => {
+                    handleOpenChangeAvatar();
+                    triggerClick();
+                  }}
+                  className="w-full flex items-center text-left px-3 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200"
+                >
+                  <FiCamera className="mr-2" size={18} />
+                  <span>Change Avatar</span>
+                </button>
+                <button
+                  onClick={() => {
+                    handleOpenChangeUsername();
+                    triggerClick();
+                  }}
+                  className="w-full flex items-center text-left px-3 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200"
+                >
+                  <FiUser className="mr-2" size={18} />
+                  <span>Change Username</span>
+                </button>
+                <button
+                  onClick={() => {
+                    toggleDarkMode();
+                    triggerClick();
+                  }}
+                  className="w-full flex items-center text-left px-3 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200"
+                >
+                  {darkMode ? (
+                    <SunIcon className="h-5 w-5 text-yellow-500" />
+                  ) : (
+                    <MoonIcon className="h-5 w-5 text-slate-700" />
+                  )}
+                  <span className="pl-2">Toggle Theme</span>
+                </button>
+                <button
+                  onClick={() => {
+                    handleLogout();
+                    triggerClick();
+                  }}
+                  className="w-full flex items-center text-left px-3 py-2 text-white bg-rose-500"
+                >
+                  <FiLogOut className="mr-2" size={16} />
+                  <span>Logout</span>
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </header>
 

@@ -50,7 +50,7 @@ function AllChats() {
   }, [location.state?.chat?.id]);
 
   return (
-    <div className="flex flex-col h-full bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800">
+    <div className="flex flex-col h-full bg-[#f8fafc] dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800">
       <div className="p-4 pb-3 border-b border-slate-200 dark:border-slate-800">
         <h2 className="text-2xl font-bold dark:text-white tracking-tight">
           Chats
@@ -59,8 +59,11 @@ function AllChats() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search chats"
-          className="mt-3 w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-cyan-500/40"
+          className="mt-3 w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500/30"
         />
+        <p className="text-xs text-slate-500 mt-2">
+          Direct Messages
+        </p>
       </div>
       <div className="flex-grow overflow-y-auto px-2 py-2 space-y-1">
         {loading ? (
@@ -108,14 +111,14 @@ function AllChats() {
                   className={`group flex items-center p-3 rounded-2xl transition-all duration-200 relative border
                 ${
                   location.state?.chat?.id === object.chat.id
-                    ? "bg-cyan-50 border-cyan-200 dark:bg-cyan-900/20 dark:border-cyan-700"
+                    ? "bg-blue-50 border-blue-200 dark:bg-blue-900/20 dark:border-blue-700"
                     : "bg-white border-slate-200 hover:bg-slate-50 dark:bg-slate-900 dark:border-slate-800 dark:hover:bg-slate-800"
                 }
               `}
                 >
                 {/* Active Indicator Bar */}
                 {location.state?.chat?.id === object.chat.id && (
-                  <div className="absolute left-0 w-1 h-8 bg-cyan-500 rounded-r-full" />
+                  <div className="absolute left-0 w-1 h-8 bg-blue-500 rounded-r-full" />
                 )}
 
                 <AvatarComponent
@@ -130,7 +133,7 @@ function AllChats() {
                     className={`truncate font-bold text-base transition-colors duration-200
                   ${
                     location.state?.chat?.id === object.chat.id
-                      ? "text-cyan-700 dark:text-cyan-400"
+                      ? "text-blue-700 dark:text-blue-400"
                       : "text-gray-900 dark:text-gray-100"
                   }
                 `}

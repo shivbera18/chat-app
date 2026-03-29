@@ -104,7 +104,7 @@ export default function Message({
         className={`relative px-3 py-2 rounded-2xl max-w-[80%] w-fit border shadow-sm
           ${
             isOwnMessage
-              ? "bg-cyan-500 text-white rounded-br-md border-cyan-400"
+              ? "bg-blue-600 text-white rounded-br-md border-blue-500"
               : "bg-white text-slate-800 rounded-bl-md border-slate-200 dark:bg-slate-800 dark:text-slate-100 dark:border-slate-700"
           }
         `}
@@ -113,7 +113,7 @@ export default function Message({
       >
         {/* Sender name for group chat */}
         {isGroup && !isOwnMessage && (
-          <div className="text-xs font-semibold text-cyan-600 mb-0.5 uppercase tracking-wide">
+          <div className="text-xs font-semibold text-blue-600 mb-0.5 uppercase tracking-wide">
             {message.senderName}
           </div>
         )}
@@ -121,7 +121,7 @@ export default function Message({
           <div className="text-base">{message.text}</div>
           <span
             className={`text-[11px] ml-2 mt-0.5 ${
-              isOwnMessage ? "text-cyan-100" : "text-slate-500"
+              isOwnMessage ? "text-blue-100" : "text-slate-500"
             }`}
           >
             {time}

@@ -74,12 +74,16 @@ export default function LoginPage() {
       className="min-h-screen flex items-center justify-center bg-center bg-cover relative px-4 py-8"
       style={{ backgroundImage: `url(${bg})` }}
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-[#0b1220]/55 via-[#12213f]/60 to-[#102f28]/60" />
+      <div className="absolute inset-0 bg-gradient-to-br from-[#e7edf8]/80 via-[#eef2fb]/80 to-[#edf6ff]/80" />
 
       <div className="relative z-10 w-full max-w-md mx-4">
-        <div className="rounded-3xl p-8 backdrop-blur-xl bg-white/90 border border-white/70 shadow-[0_16px_50px_rgba(0,0,0,0.25)]">
-          <h1 className="text-3xl mb-2 text-slate-900 font-extrabold text-center tracking-tight">Welcome back</h1>
-          <p className="text-center text-slate-500 mb-6 text-sm">Login with your username or email</p>
+        <div className="surface-panel rounded-[22px] p-8 backdrop-blur-xl bg-white/95 dark:bg-slate-900/95">
+          <h1 className="text-3xl mb-2 text-slate-900 dark:text-white font-extrabold text-center tracking-tight">
+            Welcome Back
+          </h1>
+          <p className="text-center text-slate-500 mb-6 text-sm">
+            Login with your username or email
+          </p>
 
           {successMessage && (
             <div className="mb-4 p-3 bg-emerald-100 border border-emerald-300 text-emerald-800 rounded-xl font-semibold">
@@ -100,7 +104,7 @@ export default function LoginPage() {
               placeholder="Username or email"
               value={identifier}
               onChange={(e) => setIdentifier(e.target.value)}
-              className="w-full p-3 bg-white placeholder-gray-500 text-black rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-cyan-500/40"
+              className="w-full p-3 soft-input placeholder-gray-500 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
             />
 
             <input
@@ -109,13 +113,13 @@ export default function LoginPage() {
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-3 bg-white placeholder-gray-500 text-black rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-cyan-500/40"
+              className="w-full p-3 soft-input placeholder-gray-500 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
             />
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold rounded-xl disabled:opacity-70"
+              className="w-full py-3 brand-gradient text-white font-semibold rounded-xl disabled:opacity-70"
             >
               {loading ? "Logging in..." : "Login"}
             </button>
@@ -124,14 +128,14 @@ export default function LoginPage() {
           <div className="mt-6 text-center">
             <button
               onClick={() => navigate("/register")}
-              className="px-4 py-2 text-slate-700 bg-slate-100 rounded-lg hover:bg-slate-200"
+              className="px-4 py-2 text-slate-700 bg-slate-100 rounded-lg hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-200"
             >
               Don&apos;t have an account? Register
             </button>
           </div>
         </div>
 
-        <p className="text-xs text-white mt-4 text-center font-semibold">
+        <p className="text-xs text-slate-700 mt-4 text-center font-semibold dark:text-slate-200">
           Ping — <a className="underline" href="https://ping-v1.vercel.app" target="_blank" rel="noreferrer">ping-v1.vercel.app</a>
         </p>
       </div>
