@@ -52,8 +52,8 @@ function ChatPage() {
     <div className="h-screen flex flex-col bg-[var(--ui-bg)] text-[var(--ui-ink)]">
       <Header onMenuClick={() => setShowSidebar((v) => !v)} />
       {/* Main content area */}
-      <div className="flex flex-grow overflow-hidden relative p-2 md:p-4">
-        <div className="surface-panel w-full flex overflow-hidden">
+      <div className="flex flex-col flex-grow min-h-0 overflow-hidden relative p-2 md:p-4">
+        <div className="surface-panel w-full h-full min-h-0 flex overflow-hidden">
         {/* Sidebar for AllChats */}
         <aside
           className={`
