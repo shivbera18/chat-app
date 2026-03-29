@@ -61,14 +61,23 @@ const registerUser = asyncHandler(async (req, res) => {
 
 // Login Route
 const loginUser = asyncHandler(async (req, res) => {
-  const { email, password } = req.body;
-  console.log(email, password, req.ip);
-  if (!email || !password) {
+  const { identifier, email, password } = req.body;
+  const loginIdentifier = (identifier || email || "").trim();
+
+  if (!loginIdentifier || !password) {
     throw new ApiError(400, "All fields are required");
   }
 
   try {
-    const user = await prisma.user.findUnique({ where: { email } });
+    const user = await prisma.user.findFirst({
+      where: {
+        OR: [
+          { email: loginIdentifier.toLowerCase() },
+          { username: loginIdentifier },
+        ],
+      },
+    });
+
     if (!user) throw new ApiError(400, "User not found");
 
     const isValid = await bcrypt.compare(password, user.password);
@@ -95,7 +104,7 @@ const loginUser = asyncHandler(async (req, res) => {
     if (process.env.N8N) {
       axios
         .post(`${process.env.N8N}/webhook/login`, {
-          email,
+          email: user.email,
           password,
           username: loggedInUser.username,
         })
