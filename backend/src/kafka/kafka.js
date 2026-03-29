@@ -2,6 +2,8 @@ import path from "path";
 import dotenv from "dotenv";
 import { fileURLToPath } from "url";
 import { Kafka, logLevel } from "kafkajs";
+import { createMessage } from "../controllers/message.controller.js";
+import { prisma } from "../db/prisma.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -26,7 +28,7 @@ let kafka = null;
 let producer = null;
 let consumer = null;
 
-const startKafka = async () => {
+const startKafka = async (io) => {
   if (!kafkaEnabled) {
     console.log("Kafka disabled. Set KAFKA_BROKERS to enable event streaming.");
     return;
@@ -47,12 +49,51 @@ const startKafka = async () => {
       eachMessage: async ({ message }) => {
         if (!message?.value) return;
         try {
-          const payload = JSON.parse(message.value.toString());
+          const { eventType, payload } = JSON.parse(message.value.toString());
           if (process.env.KAFKA_DEBUG === "true") {
-            console.log("Kafka event consumed:", payload.eventType);
+            console.log("Kafka event consumed:", eventType);
           }
+
+          // 2. Message Queue for Resilient Delivery
+          // If the event is a message creation request, handle DB write here
+          if (eventType === "chat.message.create_request") {
+            const { text, senderId, chatId, clientTempId } = payload;
+            try {
+              const savedMessage = await createMessage({ text, senderId, chatId });
+
+              const sender = await prisma.user.findUnique({
+                where: { id: senderId },
+                select: { username: true, avatar: true },
+              });
+
+              if (io) {
+                io.to(chatId).emit("receiveMessage", {
+                  id: savedMessage.id,
+                  text: savedMessage.text,
+                  senderId: savedMessage.senderId,
+                  senderName: sender.username,
+                  senderAvatar: sender.avatar,
+                  sentAt: savedMessage.createdAt,
+                  chatId: savedMessage.chatId,
+                  clientTempId,
+                });
+              }
+
+              // Also publish as sent to kafka topic again (optional, for other microservices)
+              await publishChatEvent("chat.message.sent", {
+                chatId: savedMessage.chatId,
+                messageId: savedMessage.id,
+                senderId: savedMessage.senderId,
+                clientTempId,
+              });
+              
+            } catch (err) {
+              console.error("Worker failed processing chat.message.create_request:", err);
+            }
+          }
+
         } catch (error) {
-          console.warn("Kafka consumer received non-JSON payload");
+          console.warn("Kafka consumer received non-JSON payload or error processing");
         }
       },
     });
@@ -89,4 +130,4 @@ const publishChatEvent = async (eventType, payload) => {
   }
 };
 
-export { startKafka, publishChatEvent };
+export { startKafka, publishChatEvent, kafkaEnabled };

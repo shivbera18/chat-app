@@ -51,4 +51,4 @@ try {
   client = fallbackClient;
 }
 
-export { client };
+export { client, redisUrl, isOptional };

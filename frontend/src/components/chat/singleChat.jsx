@@ -307,11 +307,11 @@ function SingleChat({ chat, friend, onUpdateChat }) {
   }
 
   return (
-    <div className="flex flex-col h-full min-h-0 bg-[#f9fbff] dark:bg-[#0b1220]">
+    <div className="flex flex-col h-full min-h-0 bg-white dark:bg-[#09090b]">
       {/* Messages container */}
       <div
         ref={containerRef}
-        className="flex-grow overflow-y-auto pl-4 pr-4 pt-5 pb-3 bg-[linear-gradient(180deg,#f9fbff_0%,#f2f6fd_100%)] dark:bg-[linear-gradient(180deg,#0f172a_0%,#0b1220_100%)] space-y-2 pb-24"
+        className="flex-grow overflow-y-auto pl-4 pr-4 pt-5 pb-3 bg-[var(--ui-bg)] dark:bg-[#09090b] space-y-2 pb-24"
       >
         {loadingMessages ? (
           <div className="space-y-4">

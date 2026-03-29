@@ -1,9 +1,12 @@
 // socketServer.js
 import { Server } from "socket.io";
 import { client } from "../redis/redis.js";
-import { createMessage } from "../controllers/message.controller.js";
 import { prisma } from "../db/prisma.js";
-import { publishChatEvent } from "../kafka/kafka.js";
+import { publishChatEvent, kafkaEnabled } from "../kafka/kafka.js";
+import { createMessage } from "../controllers/message.controller.js";
+import { createAdapter } from "@socket.io/redis-adapter";
+import { createClient } from "redis";
+import { redisUrl, isOptional } from "../redis/redis.js";
 
 export const setupSocket = (server) => {
   const allowedOrigins = (process.env.CLIENT_ORIGINS || "http://localhost:5173")
@@ -29,6 +32,19 @@ export const setupSocket = (server) => {
     // pingTimeout: 5000 // ← MATCH CLIENT
   });
 
+  // 1. Multi-node WebSocket Scaling (Redis Pub/Sub)
+  const pubClient = createClient({ url: redisUrl });
+  const subClient = pubClient.duplicate();
+
+  Promise.all([pubClient.connect(), subClient.connect()]).then(() => {
+    io.adapter(createAdapter(pubClient, subClient));
+    console.log("Redis adapter attached to Socket.io for multi-node scaling");
+  }).catch(err => {
+    if (!isOptional) {
+      console.warn("Could not connect Redis pub/sub clients for adapter", err.message);
+    }
+  });
+
   io.on("connection", (socket) => {
     console.log(`User connected: ${socket.id}`);
 
@@ -47,37 +63,40 @@ export const setupSocket = (server) => {
       console.log("Sending message with:", { chatId, text, senderId });
       if (chatId && text && senderId) {
         try {
-          const savedMessage = await createMessage({
-            text,
-            senderId,
-            chatId, // Ensure chatId corresponds to an existing chat
-          });
-          console.log("Message saved:", savedMessage);
-
-          const sender = await prisma.user.findUnique({
-            where: { id: senderId },
-            select: { username: true, avatar: true },
-          });
-
-          io.to(chatId).emit("receiveMessage", {
-            id: savedMessage.id,
-            text: savedMessage.text,
-            senderId: savedMessage.senderId,
-            senderName: sender.username,
-            senderAvatar: sender.avatar,
-            sentAt: savedMessage.createdAt,
-            chatId: savedMessage.chatId,
-            clientTempId,
-          });
-
-          await publishChatEvent("chat.message.sent", {
-            chatId: savedMessage.chatId,
-            messageId: savedMessage.id,
-            senderId: savedMessage.senderId,
-            clientTempId,
-          });
-
-          console.log("Message sent to chat:", chatId);
+          if (kafkaEnabled) {
+            // Offload to Kafka Queue instead of writing to DB directly
+            await publishChatEvent("chat.message.create_request", {
+              text,
+              senderId,
+              chatId,
+              clientTempId,
+            });
+            console.log("Message creation requested via Kafka for chat:", chatId);
+          } else {
+            // Fallback to direct DB write
+            const savedMessage = await createMessage({
+              text,
+              senderId,
+              chatId, // Ensure chatId corresponds to an existing chat
+            });
+            console.log("Message saved:", savedMessage);
+  
+            const sender = await prisma.user.findUnique({
+              where: { id: senderId },
+              select: { username: true, avatar: true },
+            });
+  
+            io.to(chatId).emit("receiveMessage", {
+              id: savedMessage.id,
+              text: savedMessage.text,
+              senderId: savedMessage.senderId,
+              senderName: sender.username,
+              senderAvatar: sender.avatar,
+              sentAt: savedMessage.createdAt,
+              chatId: savedMessage.chatId,
+              clientTempId,
+            });
+          }
         } catch (error) {
           console.error(
             "Error saving message from socket",

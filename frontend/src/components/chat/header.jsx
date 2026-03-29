@@ -176,7 +176,7 @@ function Header({ onMenuClick, mini }) {
     </>
   ) : (
     <>
-      <header className="sticky top-0 z-50 px-3 py-3 md:px-5 bg-[#eef1f7]/90 dark:bg-slate-950/80 backdrop-blur border-b border-slate-200 dark:border-slate-800">
+      <header className="sticky top-0 z-50 px-3 py-3 md:px-5 bg-gray-50/90 dark:bg-[#09090b]/90 backdrop-blur border-b border-slate-200 dark:border-slate-800">
         <div className="surface-panel px-3 py-2 md:px-4 md:py-3 flex justify-between items-center gap-3">
           <div className="flex items-center gap-2">
             {onMenuClick && (

@@ -1,6 +1,6 @@
 function NoPageFound() {
   return (
-    <div className="min-h-screen flex items-center justify-center p-6 bg-[#eef1f7] dark:bg-slate-950">
+    <div className="min-h-screen flex items-center justify-center p-6 bg-[var(--ui-bg)] dark:bg-[#09090b]">
       <div className="surface-panel max-w-xl w-full p-8 text-center">
         <h1 className="text-6xl text-rose-500 mb-2 font-extrabold">404</h1>
 

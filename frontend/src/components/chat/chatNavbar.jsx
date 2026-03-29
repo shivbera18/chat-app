@@ -92,7 +92,7 @@ function ChatNavbar({ chat, friend, onUpdateChat }) {
 
   return (
     <>
-      <div className="sticky top-0 z-10 flex items-center justify-between p-3 md:p-4 border-b border-slate-200 bg-white/95 text-black dark:bg-slate-900 dark:border-slate-800 dark:text-white">
+      <div className="sticky top-0 z-10 flex items-center justify-between p-3 md:p-4 border-b border-slate-200 bg-white/95 text-black dark:bg-[#09090b] dark:border-slate-800 dark:text-white">
         <div className="flex items-center">
           <AvatarComponent
             profilePicture={profilePicture}
@@ -132,7 +132,7 @@ function ChatNavbar({ chat, friend, onUpdateChat }) {
             <FiMoreVertical size={24} />
           </button>
           {dropdownOpen && (
-            <div className="absolute right-0 mt-2 w-52 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl shadow-xl z-20 p-1">
+            <div className="absolute right-0 mt-2 w-52 bg-white dark:bg-[#09090b] border border-slate-200 dark:border-slate-700 rounded-xl shadow-xl z-20 p-1">
               <button
                 onClick={() => {
                   setShowViewAvatarModal(true);

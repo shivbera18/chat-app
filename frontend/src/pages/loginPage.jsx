@@ -74,7 +74,7 @@ export default function LoginPage() {
       className="min-h-screen flex items-center justify-center bg-center bg-cover relative px-4 py-8"
       style={{ backgroundImage: `url(${bg})` }}
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-[#e7edf8]/80 via-[#eef2fb]/80 to-[#edf6ff]/80" />
+      <div className="absolute inset-0 bg-gradient-to-br from-gray-50/80 via-white/80 to-gray-100/80 dark:from-[#09090b]/80 dark:via-[#18181b]/80 dark:to-[#09090b]/80" />
 
       <div className="relative z-10 w-full max-w-md mx-4">
         <div className="surface-panel rounded-[22px] p-8 backdrop-blur-xl bg-white/95 dark:bg-slate-900/95">

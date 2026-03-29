@@ -16,7 +16,7 @@ server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 
-startKafka();
+startKafka(io);
 
 // Global error handlers to prevent crashes
 process.on('uncaughtException', (error) => {

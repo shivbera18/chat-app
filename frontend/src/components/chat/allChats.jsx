@@ -50,7 +50,7 @@ function AllChats() {
   }, [location.state?.chat?.id]);
 
   return (
-    <div className="flex flex-col h-full bg-[#f8fafc] dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800">
+    <div className="flex flex-col h-full bg-[#f8fafc] dark:bg-[#09090b] border-r border-slate-200 dark:border-slate-800">
       <div className="p-4 pb-3 border-b border-slate-200 dark:border-slate-800">
         <h2 className="text-2xl font-bold dark:text-white tracking-tight">
           Chats
@@ -112,7 +112,7 @@ function AllChats() {
                 ${
                   location.state?.chat?.id === object.chat.id
                     ? "bg-blue-50 border-blue-200 dark:bg-blue-900/20 dark:border-blue-700"
-                    : "bg-white border-slate-200 hover:bg-slate-50 dark:bg-slate-900 dark:border-slate-800 dark:hover:bg-slate-800"
+                    : "bg-white border-slate-200 hover:bg-slate-50 dark:bg-[#09090b] dark:border-slate-800 dark:hover:bg-slate-800"
                 }
               `}
                 >

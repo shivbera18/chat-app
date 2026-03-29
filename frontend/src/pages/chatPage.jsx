@@ -49,7 +49,7 @@ function ChatPage() {
   }, [location.state?.chat]);
 
   return (
-    <div className="h-screen flex flex-col bg-[#eef1f7] text-gray-900 dark:bg-slate-950 dark:text-dark-text">
+    <div className="h-screen flex flex-col bg-gray-50 text-gray-900 dark:bg-[#09090b] dark:text-gray-100">
       <Header onMenuClick={() => setShowSidebar((v) => !v)} />
       {/* Main content area */}
       <div className="flex flex-grow overflow-hidden relative p-2 md:p-4">
@@ -83,7 +83,7 @@ function ChatPage() {
                   />
                 </div>
                 {/* Single Chat Container - scrolling handled inside SingleChat */}
-                <div className="flex-grow min-h-0">
+                <div className="flex-grow min-h-0 flex flex-col relative overflow-hidden">
                   <SingleChat
                     chat={activeChat}
                     friend={friend}
@@ -96,7 +96,7 @@ function ChatPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.35 }}
-                className="flex flex-grow items-center justify-center flex-col space-y-4 dark:text-primary bg-[#f9fbff] dark:bg-slate-900"
+                className="flex flex-grow items-center justify-center flex-col space-y-4 dark:text-primary bg-white dark:bg-[#09090b]"
               >
                 <p className="text-slate-500 font-medium text-center px-4">
                   Select or create a chat to view messages.

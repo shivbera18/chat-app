@@ -1,23 +1,32 @@
-@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Syne:wght@500;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --ui-bg: #eef1f7;
+  --ui-bg: #fafafa;
   --ui-surface: #ffffff;
-  --ui-panel: #f8fafc;
-  --ui-ink: #0f172a;
-  --ui-muted: #64748b;
-  --ui-line: #d8dee9;
-  --ui-accent: #3b82f6;
-  --ui-accent-2: #22c55e;
+  --ui-panel: #f4f4f5;
+  --ui-ink: #09090b;
+  --ui-muted: #71717a;
+  --ui-line: #e4e4e7;
+  --ui-accent: #18181b;
+  --ui-accent-2: #2563eb;
   --ui-warm: #f59e0b;
-  --ui-danger: #f43f5e;
-  --ui-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
-  --ui-shadow-sm: 0 4px 12px rgba(15, 23, 42, 0.08);
-  --ui-radius: 16px;
+  --ui-danger: #ef4444;
+  --ui-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  --ui-shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.05), 0 1px 2px -1px rgb(0 0 0 / 0.05);
+  --ui-radius: 12px;
+}
+
+body {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  color: var(--ui-ink);
+  background: var(--ui-bg);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .p-skeleton {
@@ -25,116 +34,91 @@
   opacity: 0.9;
 }
 
-body {
-  font-family: "Manrope", sans-serif;
-  color: var(--ui-ink);
-  background:
-    radial-gradient(circle at 10% 5%, #f8fbff 0, transparent 20%),
-    radial-gradient(circle at 95% 90%, #eaf3ff 0, transparent 22%),
-    linear-gradient(140deg, #f5f7fc 0%, #edf1f8 55%, #eef2f9 100%);
-  min-height: 100vh;
+h1, h2, h3, h4, h5, h6 {
+  font-family: inherit;
+  font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: "Syne", "Manrope", sans-serif;
-  letter-spacing: -0.02em;
-}
-
-button,
-input,
-textarea,
-select {
-  border: 1px solid var(--ui-line);
+button, input, textarea, select {
   box-shadow: none;
-  border-radius: 12px;
+  font-family: inherit;
 }
 
 button {
-  font-weight: 700;
-  transition: transform 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
-}
-
-button:hover {
-  transform: translateY(-1px);
-  box-shadow: var(--ui-shadow-sm);
+  transition: all 150ms ease;
+  font-weight: 500;
 }
 
 button:active {
-  transform: translateY(0);
-  box-shadow: none;
+  transform: scale(0.98);
 }
 
 .neo-card {
   border: 1px solid var(--ui-line);
   border-radius: var(--ui-radius);
-  box-shadow: var(--ui-shadow);
+  box-shadow: var(--ui-shadow-sm);
   background: var(--ui-surface);
 }
 
 .neo-chip {
   border: 1px solid var(--ui-line);
   border-radius: 999px;
-  padding: 0.2rem 0.8rem;
-  font-weight: 700;
-  background: #eef4ff;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  background: var(--ui-panel);
 }
 
 .surface-panel {
   background: var(--ui-surface);
   border: 1px solid var(--ui-line);
   border-radius: var(--ui-radius);
-  box-shadow: var(--ui-shadow);
+  box-shadow: var(--ui-shadow-sm);
 }
 
 .soft-input {
   background: var(--ui-panel);
-  border: 1px solid var(--ui-line);
-  border-radius: 12px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  transition: border-color 150ms ease;
+}
+
+.soft-input:focus {
+  border-color: var(--ui-accent-2);
+  outline: none;
 }
 
 .brand-gradient {
-  background: linear-gradient(135deg, #2563eb, #0ea5e9 55%, #22c55e);
+  background: linear-gradient(135deg, #18181b, #27272a);
 }
 
 .dark body {
-  background:
-    radial-gradient(circle at 8% 12%, #26364f 0, transparent 24%),
-    radial-gradient(circle at 90% 84%, #1e2b47 0, transparent 22%),
-    linear-gradient(140deg, #0b1220 0%, #111827 55%, #1a2334 100%);
-  color: #e2e8f0;
+  background: #09090b;
+  color: #fafafa;
 }
 
 .dark .neo-card {
-  background: #0f172a;
-  border-color: #243347;
-  box-shadow: 0 14px 28px rgba(2, 6, 23, 0.45);
+  background: #18181b;
+  border-color: #27272a;
 }
 
-.dark button,
-.dark input,
-.dark textarea,
-.dark select {
-  border-color: #334155;
+.dark button, .dark input, .dark textarea, .dark select {
+  border-color: #27272a;
 }
 
 .dark .surface-panel {
-  background: #111827;
-  border-color: #263244;
+  background: #18181b;
+  border-color: #27272a;
 }
 
 .dark .soft-input {
-  background: #0f172a;
-  border-color: #334155;
+  background: #18181b;
+  border-color: #27272a;
 }
 
 @media (max-width: 640px) {
   button:hover {
     transform: none;
-    box-shadow: var(--ui-shadow-sm);
   }
 }
