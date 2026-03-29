@@ -1,9 +1,7 @@
 import jwt from "jsonwebtoken";
 
-import { PrismaClient } from "@prisma/client";
 import { ApiError } from "./ApiError.js";
-
-const prisma = new PrismaClient();
+import { prisma } from "../db/prisma.js";
 
 const generateAccessAndRefreshToken = async (userId) => {
   const user = await prisma.user.findUnique({ where: { id: userId } });

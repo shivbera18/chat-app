@@ -1,9 +1,8 @@
 // message.controller.js
-import { PrismaClient } from "@prisma/client";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
-const prisma = new PrismaClient();
+import { prisma } from "../db/prisma.js";
 
 const createMessage = async ({ text, senderId, chatId }) => {
   console.log("Creating message:", { text, senderId, chatId });
