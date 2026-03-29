@@ -25,33 +25,65 @@
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/) (v14+ recommended)
-- [npm](https://www.npmjs.com/) or [Yarn](https://yarnpkg.com/)
-- [PostgreSQL](https://www.postgresql.org/) database
-- [Redis](https://redis.io/) server
+- [Node.js](https://nodejs.org/) (v20 recommended)
+- [npm](https://www.npmjs.com/)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) (optional, for containerized setup)
 
-### Clone the Repository
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/yourusername/ping.git
 cd ping
+```
 
+### 2. First-Time Local Env Setup
 
-# PostgreSQL connection string
-DATABASE_URL=postgresql://user:password@localhost:5432/ping_db
+This project is already preconfigured for first-time local setup:
 
-# Redis connection URL
-REDIS_URL=redis://localhost:6379
+- `backend/.env` contains your provided Neon `DATABASE_URL`.
+- `frontend/.env.local` points frontend API/socket to `http://localhost:8000`.
 
-# Server port
-PORT=8000
+If you need to rotate credentials, update `backend/.env`.
 
-# JWT secret for authentication
-ACCESS_TOKEN_SECRET="your key"
-ACCESS_TOKEN_EXPIRY="1d"
-REFRESH_TOKEN_SECRET="your key"
-REFRESH_TOKEN_EXPIRY="7d"
+### 3. Local Run (without Docker)
 
+```bash
+cd backend
+npm install
+npx prisma migrate deploy
+npm run dev
+```
+
+Open a second terminal:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+App URLs:
+
+- Frontend: `http://localhost:5173`
+- Backend: `http://localhost:8000`
+
+### 4. Docker Run (recommended for first-time setup)
+
+From project root:
+
+```bash
+docker compose up -d --build
+```
+
+Docker URLs:
+
+- Frontend: `http://localhost:5174`
+- Backend: `http://localhost:8000`
+
+To stop containers:
+
+```bash
+docker compose down
 ```
 
 ## API Endpoints
