@@ -188,6 +188,12 @@ Ping uses Socket.IO for real-time messaging. Key events include:
 
 ## Running Tests & Debugging
 
+## Implementation Guide
+
+For a detailed internal guide (feature flow, Redis and Kafka usage, Kafka setup with and without Docker), see:
+
+- `IMPLEMENTATION_GUIDE.md`
+
 ### Postman
 Use Postman to test your API endpoints (e.g., `/api/secret/create`, `/api/secret/:chatId`).
 
