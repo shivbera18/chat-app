@@ -1,5 +1,15 @@
 {
+  "name": "ping-v1",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently -n backend,frontend -c green,cyan \"DOTENV_CONFIG_PATH=backend/.env npm --prefix backend run dev\" \"npm --prefix frontend run dev\"",
+    "dev:backend": "DOTENV_CONFIG_PATH=backend/.env npm --prefix backend run dev",
+    "dev:frontend": "npm --prefix frontend run dev"
+  },
   "dependencies": {
     "date-fns": "^4.1.0"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
   }
 }

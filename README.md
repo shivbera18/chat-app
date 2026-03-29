@@ -47,6 +47,20 @@ If you need to rotate credentials, update `backend/.env`.
 
 ### 3. Local Run (without Docker)
 
+Quick start (single command from project root):
+
+```bash
+npm install
+npm run dev
+```
+
+This runs backend (`nodemon`) and frontend (`vite`) together in watch mode.
+
+Notes:
+
+- Backend uses Redis fallback mode in local dev if Redis is not running.
+- To make Redis mandatory, set `REDIS_OPTIONAL=false` in `backend/.env`.
+
 ```bash
 cd backend
 npm install
