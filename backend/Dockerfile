@@ -5,7 +5,8 @@ WORKDIR /app
 # Prisma on slim images needs OpenSSL in some environments.
 RUN apt-get update -y && apt-get install -y openssl && rm -rf /var/lib/apt/lists/*
 
-COPY package*.json ./
+COPY package*.json prisma.config.ts ./
+COPY prisma ./prisma
 RUN npm ci
 
 COPY . .
