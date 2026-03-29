@@ -32,8 +32,8 @@
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/ping.git
-cd ping
+git clone https://github.com/shivbera18/chat-app.git
+cd chat-app
 ```
 
 ### 2. First-Time Local Env Setup
